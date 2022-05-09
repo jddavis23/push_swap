@@ -6,7 +6,7 @@
 #    By: jdavis <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/14 16:19:40 by jdavis            #+#    #+#              #
-#    Updated: 2022/04/06 11:38:30 by jdavis           ###   ########.fr        #
+#    Updated: 2022/05/09 17:11:49 by jdavis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC += create_struct.c
 SRC += rounder.c
 SRC += and_or_type.c
 SRC += width_num.c
+SRC += ft_atolli.c
 
 OBJ = $(SRC:.c=.o)
 
