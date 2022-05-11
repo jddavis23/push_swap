@@ -6,94 +6,175 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:28:15 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/10 12:21:51 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/11 13:56:49 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_dup(int **a, int **b, int count)
+int	ft_error(int **a, int **b, int index)
+{
+	int	i;
+
+	i = 0;
+	if (a && b)
+		index = 0;
+	/*while (i <= index)
+	{
+		if (a)
+			free(a[i]);
+		if (b)
+			free(b[i++]);
+	}
+	free(a);
+	free(b);
+	a = NULL;
+	b = NULL;
+	USE ft_double_arrdel*/
+	ft_printf("Error\n");
+	return (-1);
+}
+
+static int	ft_dup(int **a, int total)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < count)
+	while (i < total)
 	{
+		ft_printf("%i--\n", (*a)[i]);
 		j = 1;
-		while (i + j < count)
+		while (i + j < total)
 		{
 			if ((*a)[i] == (*a)[i + j])
-			{
-				i = 0;
-				while (i < count)
-					free(a[i++]);
-				free(a);
-				free(b);
-				ft_printf("dup\n");
 				return (-1);
-			}
 			++j;
 		}
 		++i;
 	}
+	ft_printf("1\n");
 	return (0);
 }
 
+int	ft_options(char *str)
+{
+	int		i;
+	int		choice;
+	char	*opt[] = {
+		"sa",
+		"sb",
+		"ss",
+		"pa",
+		"pb",
+		"ra",
+		"rb",
+		"rr",
+		"rra",
+		"rrb",
+		"rrr"};
+
+	i = 0;
+	choice = 0;
+	while (i < 11)
+	{
+		if (ft_strcmp(opt[i], str) == 0)
+		{
+			choice = 1;
+			break ;
+		}
+		++i;
+	}
+	return (choice);
+}
+
+static int	ft_dup_option_check(int **a, int **b, int total)
+{
+	int		ret;
+	char	*option;
+	int		error;
+
+	ret = 1;
+	error = 0;
+	while (ret == 1)
+	{
+		ret = get_next_line(0, &option);
+		if (!ft_options(option))
+			error = -1;
+
+	}
+	if (ft_dup(a, total + 1) == -1 || error == -1)
+	{
+		ft_printf("2\n");
+		return (ft_error(a, b, total + 1));
+	}
+	return (0);
+}
+
+
 int main(int argc, char *argv[])
 {
-	int	**a;
-	int **b;
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	*proc;
+	int		ret;
+	t_info	*pass;
+	int		th[] = {23, 3 ,4};
 
 	i = 1;
-	a = NULL;
-	b = NULL;
 	len = 0;
+	proc = NULL;
+	ret = 1;
+	pass = (t_info *) malloc(sizeof(t_info));
+	if (!pass)
+		return (-1);
+	pass->a = (int **) malloc((argc - 1) * sizeof(int *));
+	pass->b = (int **) malloc((argc - 1) * sizeof(int *));
+	if (!pass->a || !pass->b)
+	{
+		//free whichever
+		//return
+	}
+	while (i < argc)
+	{
+		pass->a[i - 1] = (int *) malloc(sizeof(int));
+		pass->b[i - 1] = (int *) malloc(sizeof(int));
+		if (!pass->a[i] || !pass->b[i])
+		{
+			//delete
+			////return
+		}
+		++i;
+	}
+	pass->a_len = argc - 1;
+	pass->b_len = 0;
+	i = 1;
 	if (argc > 1)
 	{
-		a = (int **) malloc((argc - 1) * sizeof(int *));
-		b = (int **) malloc((argc - 1) * sizeof(int *));
-		while (i < argc && a && b)
+		while (i < argc)
 		{
-			//if (!a[j])
-				//delete all and malloc and exit
 			while (len < (int)ft_strlen(argv[i]))
 			{
-				if (len != '0' && (argv[i][len] == '-' || argv[i][len] < '0' || argv[i][len] > '9')) //not workin as should
-				{
-					ft_printf("Error 1");
-					return (-1); //error message and wipe mem	
-				}
-				ft_printf("i = %c\n", argv[i][len]);
+				if ((len > 0 && argv[i][len] == '-' && (argv[i][len] < '0' || argv[i][len] > '9'))) //not workin as should
+					return (ft_error(pass->a, pass->b, argc));
 				++len;
 			}
 			if (argv[i][0] == '-' && len >= 11 && ft_strcmp("-2147483648", argv[i]) < 0)
-			{	
-				//error message wipe mem
-				ft_printf("Error 2");
-				return (-1);
-			}
+				return (ft_error(pass->a, pass->b, argc));
 			if (ft_strcmp("2147483647", argv[i]) < 0 && len >= 10)
-			{
-				//error message 
-				ft_printf("Error 3");
-				return (-1);
-			}
-			a[i - 1] = (int *) malloc(sizeof(int));
-			if (a[i - 1])
-			{
-				(*a)[i - 1] = ft_atoi(argv[i]);
-				++i;
-			}
+				return (ft_error(pass->a, pass->b, argc));
+			(*pass->a[i - 1]) = ft_atoi(argv[i]);
+			++i;
 			len = 0;
 		}
 	}
-	if (ft_dup(a, b, argc - 1) == -1)
-		return (1);
 	i = 0;
 	while (i < argc - 1)
-		ft_printf("%i\n", ((*a)[i++]));
+		ft_printf("%i\n", pass->a[i++][0]);
+	if (ft_dup_option_check(pass->a, pass->b, argc - 1) == -1)
+		return (1);
+	i = 0;
+	//while (i < argc - 1)
+	//	ft_printf("%i\n", pass->a[i++][0]);
 	return (0);
 }
