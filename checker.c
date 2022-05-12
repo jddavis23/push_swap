@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:28:15 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/11 16:20:30 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/12 12:30:27 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	ft_options(char *str)
 
 	i = 0;
 	choice = 0;
+	if (!str)
+		return (1);
 	while (i < 11)
 	{
 		if (ft_strcmp(opt[i], str) == 0)
@@ -94,17 +96,26 @@ static int	ft_dup_option_check(t_info *pass)
 
 	ret = 1;
 	error = 0;
+	if (ft_dup(pass) == -1)
+		return (ft_error(pass));
 	while (ret == 1)
 	{
 		ret = get_next_line(0, &option);
-		if (!ft_options(option))
+		if (ft_options(option) == 0)
 			error = -1;
-
+		if (ft_strcmp("sa", option) == 0 && option)
+			ft_sa(pass);
+		if (ft_strcmp("sb", option) == 0 && option)
+			ft_sb(pass);
+		if (ft_strcmp("pa", option) == 0 && option)
+			ft_pa(pass);
+		if (ft_strcmp("pb", option) == 0 && option)
+			ft_pb(pass);
+		free(option);
 	}
-	if (ft_dup(pass) == -1 || error == -1)
-	{
+	//ft_printf("\nerror = %i\n", ft_dup(pass));
+	if (error == -1)
 		return (ft_error(pass));
-	}
 	return (0);
 }
 
@@ -161,8 +172,18 @@ int main(int argc, char *argv[])
 	}
 	if (ft_dup_option_check(pass) == -1)
 		return (1);
-	//i = 0;
-	//while (i < argc - 1)
-	//	ft_printf("%i\n", pass->a[i++][0]);
+	i = 0;
+	ft_printf("2nd stack a\n");
+	while (i < pass->a_len)
+	{
+		ft_printf("%i\n", pass->a[i++]);
+	}
+	i = 0;
+	ft_printf("stack b\n");
+	while (i < pass->b_len)
+	{
+		ft_printf("%i\n", pass->b[i++]);
+	}
+
 	return (0);
 }
