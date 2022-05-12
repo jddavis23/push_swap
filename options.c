@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:55:00 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/12 13:25:05 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/12 15:19:54 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,60 +55,90 @@ int	*ft_rotate_up(int *arr, int len)
 	return (arr);
 }
 
+int	*ft_rotate_down(int *arr, int len)
+{
+	while (len > 0)
+	{
+		arr[len] = arr[len - 1];
+		--len;
+	}
+	return (arr);
+}
+
 void	ft_pa(t_info *pass)
 {
-	int	t_len;
-
-	t_len = pass->a_len;
 	if (pass->b_len > 0)
 	{
 		--pass->b_len;
 		++pass->a_len;
-		while (t_len > 0) //make own function
-		{
-			pass->a[t_len] = pass->a[t_len - 1];
-			--t_len;
-		}
+		pass->a =ft_rotate_down(pass->a, pass->a_len);
 		pass->a[0] = pass->b[0];
 		pass->b = ft_rotate_up(pass->b, pass->b_len);
-		ft_printf("alen = %i\n", pass->a_len);
-		ft_printf("blen = %i\n", pass->b_len);
 	}
 }
 
 void	ft_pb(t_info *pass)
 {
-	int	t_len;
-	int	i;
-
-	i = 0;
-	t_len = pass->b_len;
 	if (pass->a_len > 0)
 	{
 		--pass->a_len;
 		++pass->b_len;
-		while (t_len > 0)
-		{
-			pass->b[t_len] = pass->b[t_len - 1];
-			--t_len;
-		}
-		pass->b[t_len] = pass->a[t_len];
-		while (t_len < pass->a_len)
-		{
-			pass->a[t_len] = pass->a[t_len + 1];
-			++t_len;
-		}
-		ft_printf("alen = %i\n", pass->a_len);
-		ft_printf("blen = %i\n", pass->b_len);
+		pass->b = ft_rotate_down(pass->b, pass->b_len);
+		pass->b[0] = pass->a[0];
+		pass->a = ft_rotate_up(pass->a, pass->a_len);
 	}
 }
 
-/*void	ft_ra(t_info *pass)
+void	ft_ra(t_info *pass)
 {
 	int	temp;
-	int	i;
 
-	i = 0;
-	temp = pass->a[i];
+	temp = pass->a[0];
+	pass->a = ft_rotate_up(pass->a, pass->a_len);
+	pass->a[pass->a_len - 1] = temp;
+}
 
-}*/
+void	ft_rb(t_info *pass)
+{
+	int	temp;
+
+	temp = pass->b[0];
+	pass->b = ft_rotate_up(pass->b, pass->b_len);
+	pass->b[pass->b_len - 1] = temp;
+}
+
+void	ft_rr(t_info *pass)
+{
+	ft_ra(pass);
+	ft_rb(pass);
+}
+
+void	ft_rra(t_info *pass)
+{
+	int	temp;
+
+	if(pass->a_len > 1)
+	{
+		temp = pass->a[pass->a_len - 1];
+		pass->a = ft_rotate_down(pass->a, pass->a_len);
+		pass->a[0] = temp;
+	}
+}
+
+void	ft_rrb(t_info *pass)
+{
+	int	temp;
+
+	if (pass->b_len > 1)
+	{
+		temp = pass->b[pass->b_len - 1];
+		pass->b = ft_rotate_down(pass->b, pass->b_len);
+		pass->b[0] = temp;
+	}
+}
+
+void	ft_rrr(t_info *pass)
+{
+	ft_rra(pass);
+	ft_rrb(pass);
+}
