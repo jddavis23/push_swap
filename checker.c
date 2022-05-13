@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:28:15 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/12 18:07:05 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/13 14:00:16 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,19 @@ static int	ft_dup_option_check(t_info *pass)
 	int		ret;
 	char	*line;
 	int		error;
+	//int i = 0;
 
 	ret = 1;
 	error = 0;
 	if (ft_dup(pass) == -1)
+	{
+	/*	i = 0;
+		while (i < pass->a_len)
+		{
+			ft_printf("%i\n", pass->a[i++]);
+		}*/
 		return (ft_error(pass));
+	}
 	while (ret == 1)
 	{
 		ret = get_next_line(0, &line);
@@ -159,24 +167,85 @@ static int	ft_dup_option_check(t_info *pass)
 	return (0);
 }
 
-int	ft_collect(t_info *pass, char *argv[], int *i, int choice)
+int	ft_word_count(char *str)
+{
+	int	i;
+	int	count;
+	int	flag;
+
+	i = 0;
+	count = 0;
+	flag = 1;
+	while (str[i] != '\0')
+	{
+		if (str[i] >= '0' && str[i] <= '9' && flag)
+		{
+			++count;
+			flag = 0;
+		}
+		if (str[i] == ' ' || str[i] == '\t')
+			flag = 1;
+		++i;
+	}
+	return (count);
+}
+
+char	*ft_strnccpy(char *dest, char *src, int i)
+{
+	ft_strncpy(dest, src, i);
+	dest[i] = '\0';
+	return (dest);
+}
+
+int	ft_collect(t_info *pass, char *argv[], int argc)
 {
 	int	len;
+	int	i;
+	char	dest[12];
+	int		hold;
 
-	len = 0;
-	while (len < (int)ft_strlen(argv[*i]))
+	i = 1;
+	while (i < argc)
 	{
-		if ((len > 0 && argv[*i][len] == '-' && (argv[*i][len] < '0' || argv[*i][len] > '9')))
-			return (ft_error(pass));
-		++len;
+		len = 0;
+		while (len < (int)ft_strlen(argv[i]))
+		{
+			while (argv[i][len] != ' ' && argv[i][len] != '\0')
+			{
+				if (argv[i][len] < '0' || argv[i][len] > '9')
+				{
+					if (argv[i][len] == '-' && (len == 0 || argv[i][len - 1] == ' '))
+						break ;
+					return (ft_error(pass));
+				}
+				++len;
+			}
+			++len;
+		}
+		len = 0;
+		while (len < (int)ft_strlen(argv[i]))
+		{
+			while (argv[i][len] == ' ')
+				++len;
+			hold = ft_strlen_stop(&argv[i][len], ' ');
+			if (hold > 11 || (argv[i][len] == '-' && hold >= 11 && ft_strcmp("-2147483648", ft_strnccpy(dest, &argv[i][len], hold)) < 0))
+			{
+				ft_printf("here\n");
+				return (ft_error(pass));
+			}
+			if (ft_strcmp("2147483647", dest) < 0 && hold >= 10)
+			{
+				ft_printf("here\n");
+				return (ft_error(pass));
+			}
+			ft_printf("len = %i  and atoi = %i\n", len, ft_atoi(&argv[i][len]));
+			pass->a[pass->a_len++]  = ft_atoi(&argv[i][len]);
+			len += hold;
+		}
+		++i;
 	}
-	if (argv[*i][0] == '-' && len >= 11 && ft_strcmp("-2147483648", argv[*i]) < 0)
-		return (ft_error(pass));
-	if (ft_strcmp("2147483647", argv[*i]) < 0 && len >= 10)
-		return (ft_error(pass));
-	if (choice == 1)
-		pass->a[*i - 1]  = ft_atoi(argv[*i]);
-	++(*i);
+	if (pass->a_len != pass->total)
+		ft_printf("FUCK\n");
 	return (1); //this should return a count of ints
 }
 
@@ -192,17 +261,18 @@ t_info	*ft_create(t_info *pass, int argc, char *argv[])
 	pass = (t_info *) malloc(sizeof(t_info));
 	if (!pass)
 		return (NULL);
-	//while (
-	pass->a = (int *) malloc((argc - 1) * sizeof(int *));
-	pass->b = (int *) malloc((argc - 1) * sizeof(int *));
+	while (i < argc)
+		count += ft_word_count(argv[i++]);
+	pass->a = (int *) malloc(count * sizeof(int *));
+	pass->b = (int *) malloc(count * sizeof(int *));
 	if (!pass->a || !pass->b)
 	{
 		//free whichever
 		//return
 	}
-	pass->a_len = argc - 1;
+	pass->a_len = 0;
 	pass->b_len = 0;
-	pass->total = argc - 1;
+	pass->total = count;
 	return (pass);
 }
 
@@ -221,17 +291,19 @@ int main(int argc, char *argv[])
 	}
 	if (argc > 1)
 	{
-		while (i < argc) //have while loop inside ft_collect
+		/*while (i < argc) //have while loop inside ft_collect
 		{
 			if (ft_collect(pass, argv, &i, 1) == -1)
 				return (-1);
-		}
-		//if (ft_collect(pass, argv) == -1)  MAKE THIS WORK
-		//	return (-1);
+		}*/
+		if (ft_collect(pass, argv, argc) == -1)  //MAKE THIS WORK
+			return (-1);
 	}
 	if (ft_dup_option_check(pass) == -1)
+	{
+		ft_printf("maybe\n");
 		return (1);
-
+	}
 
 	i = 0;
 	ft_printf("2nd stack a\n");
