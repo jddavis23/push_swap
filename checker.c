@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:28:15 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/13 14:00:16 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/13 14:07:14 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,23 +229,16 @@ int	ft_collect(t_info *pass, char *argv[], int argc)
 				++len;
 			hold = ft_strlen_stop(&argv[i][len], ' ');
 			if (hold > 11 || (argv[i][len] == '-' && hold >= 11 && ft_strcmp("-2147483648", ft_strnccpy(dest, &argv[i][len], hold)) < 0))
-			{
-				ft_printf("here\n");
 				return (ft_error(pass));
-			}
 			if (ft_strcmp("2147483647", dest) < 0 && hold >= 10)
-			{
-				ft_printf("here\n");
 				return (ft_error(pass));
-			}
-			ft_printf("len = %i  and atoi = %i\n", len, ft_atoi(&argv[i][len]));
 			pass->a[pass->a_len++]  = ft_atoi(&argv[i][len]);
 			len += hold;
 		}
 		++i;
 	}
 	if (pass->a_len != pass->total)
-		ft_printf("FUCK\n");
+		ft_printf("MEZZ UPPP\n"); //remove when done
 	return (1); //this should return a count of ints
 }
 
@@ -291,19 +284,11 @@ int main(int argc, char *argv[])
 	}
 	if (argc > 1)
 	{
-		/*while (i < argc) //have while loop inside ft_collect
-		{
-			if (ft_collect(pass, argv, &i, 1) == -1)
-				return (-1);
-		}*/
 		if (ft_collect(pass, argv, argc) == -1)  //MAKE THIS WORK
 			return (-1);
 	}
 	if (ft_dup_option_check(pass) == -1)
-	{
-		ft_printf("maybe\n");
 		return (1);
-	}
 
 	i = 0;
 	ft_printf("2nd stack a\n");
