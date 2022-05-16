@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   solved.c                                           :+:      :+:    :+:   */
+/*   dup.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/16 13:05:14 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/16 15:56:21 by jdavis           ###   ########.fr       */
+/*   Created: 2022/05/16 15:11:47 by jdavis            #+#    #+#             */
+/*   Updated: 2022/05/16 16:48:05 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_solved(t_info *pass)
+int	ft_dup(t_info *pass)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	if (pass->a_len == pass->total && pass->b_len == 0)
+	while (i < pass->total)
 	{
-		while (i < pass->total - 1 )
+		j = 1;
+		while (i + j < pass->total)
 		{
-			if (pass->a[i] >= pass->a[i + 1])
+			if (pass->a[i] == pass->a[i + j])
 				return (-1);
-			++i;
+			++j;
 		}
-		return (1);
+		++i;
 	}
-	return (-1);
+	return (0);
 }

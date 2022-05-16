@@ -6,7 +6,7 @@
 #    By: jdavis <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 11:55:55 by jdavis            #+#    #+#              #
-#    Updated: 2022/05/16 13:36:31 by jdavis           ###   ########.fr        #
+#    Updated: 2022/05/16 15:26:22 by jdavis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,21 +21,23 @@ SRC += collect_arg.c
 SRC += error.c
 SRC += solved.c
 SRC += create.c
+SRC += dup.c
 
+all: $(CHECK) $(PUSH)
 
 $(CHECK):
 	@make -C libft/ fclean && make -C libft/
 	@$(CC) libft/libftprintf.a -o checker $(SRC) checker.c
 
 $(PUSH):
+	@make -C libft/ fclean && make -C libft/
 	@$(CC) libft/libftprintf.a -o push_swap  $(SRC) push_swap.c
-
-all: $(CHECK) $(PUSH)
 
 clean:
 	@rm -f *.o && make -C libft/ clean
 
 fclean: clean
 	@rm -f checker && make -C libft/ fclean
+	@rm -f push_swap
 
 re: fclean all

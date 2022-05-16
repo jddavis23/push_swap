@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/16 13:02:48 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/16 15:16:26 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		ft_solved(t_info *pass);
 void	ft_compare(t_info *pass, char **line);
 int		ft_collect(t_info * pass, char *argv[], int argc);
 int		ft_error(t_info *pass);
-t_info	*ft_create(t_info *pass, int argc, char *argv[]);
+t_info	*ft_create(t_info *pass, int total, char *str[]);
 int		ft_dup_option_check(t_info *pass);
 int		ft_dup(t_info *pass);
 

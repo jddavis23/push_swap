@@ -6,13 +6,13 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:28:15 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/16 13:14:40 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/16 15:21:14 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_dup(t_info *pass)
+/*int	ft_dup(t_info *pass)
 {
 	int	i;
 	int	j;
@@ -30,7 +30,7 @@ int	ft_dup(t_info *pass)
 		++i;
 	}
 	return (0);
-}
+}*/
 
 int	ft_options(char *str)
 {
