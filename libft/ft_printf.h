@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 10:36:17 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/09 17:12:30 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/16 10:38:42 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ char	*ft_true_width(t_flags *info, char **str, long long int nb);
 int		ft_minus(long double nb);
 void	ft_option(long double nb, int *option);
 long long int ft_atolli(const char *str);
+int		ft_numb_count(char *str);
 
 #endif

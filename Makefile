@@ -6,22 +6,31 @@
 #    By: jdavis <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 11:55:55 by jdavis            #+#    #+#              #
-#    Updated: 2022/05/12 11:15:46 by jdavis           ###   ########.fr        #
+#    Updated: 2022/05/16 13:36:31 by jdavis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = checker
+CHECK = checker
+PUSH = push_swap
 
 CC = gcc -Wall -Wextra -Werror -L.
 
-SRC = 
+SRC = options.c
+SRC += comp.c
+SRC += collect_arg.c
+SRC += error.c
+SRC += solved.c
+SRC += create.c
 
-all: $(NAME)
 
-$(NAME):
+$(CHECK):
 	@make -C libft/ fclean && make -C libft/
-	@$(CC) libft/libftprintf.a checker.c options.c -o checker
-	#@$(CC) libft/libftprintf.a (compile c files for push_swap)
+	@$(CC) libft/libftprintf.a -o checker $(SRC) checker.c
+
+$(PUSH):
+	@$(CC) libft/libftprintf.a -o push_swap  $(SRC) push_swap.c
+
+all: $(CHECK) $(PUSH)
 
 clean:
 	@rm -f *.o && make -C libft/ clean

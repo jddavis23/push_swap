@@ -6,36 +6,13 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:28:15 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/13 14:07:14 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/16 13:14:40 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_error(t_info *pass)
-{
-	int	i;
-
-	i = 0;
-	if (pass->a && pass->b)
-		pass->total = 0;
-	/*while (i <= index)
-	{
-		if (a)
-			free(a[i]);
-		if (b)
-			free(b[i++]);
-	}
-	free(a);
-	free(b);
-	a = NULL;
-	b = NULL;
-	USE ft_double_arrdel*/
-	ft_printf("Error\n");
-	return (-1);
-}
-
-static int	ft_dup(t_info *pass)
+int	ft_dup(t_info *pass)
 {
 	int	i;
 	int	j;
@@ -88,7 +65,7 @@ int	ft_options(char *str)
 	return (choice);
 }
 
-int	ft_solved(t_info *pass)
+/*int	ft_solved(t_info *pass)
 {
 	int	i;
 
@@ -103,50 +80,18 @@ int	ft_solved(t_info *pass)
 		}
 	}
 	return (0);
-}
+}*/
 
-static void	ft_compare(t_info *pass, char **line)
-{
-	if (ft_strcmp("sa", *line) == 0 && *line)
-		ft_sa(pass);
-	if (ft_strcmp("sb", *line) == 0 && *line)
-		ft_sb(pass);
-	if (ft_strcmp("pa", *line) == 0 && *line)
-		ft_pa(pass);
-	if (ft_strcmp("pb", *line) == 0 && *line)
-		ft_pb(pass);
-	if (ft_strcmp("ra", *line) == 0 && *line)
-		ft_ra(pass);
-	if (ft_strcmp("rb", *line) == 0 && *line)
-		ft_rb(pass);
-	if (ft_strcmp("rr", *line) == 0 && *line)
-		ft_rr(pass);
-	if (ft_strcmp("rra", *line) == 0 && *line)
-		ft_rra(pass);
-	if (ft_strcmp("rrb", *line) == 0 && *line)
-		ft_rrb(pass);
-	if (ft_strcmp("rrr", *line) == 0 && *line)
-		ft_rrr(pass);
-}
-
-static int	ft_dup_option_check(t_info *pass)
+int	ft_dup_option_check(t_info *pass)
 {
 	int		ret;
 	char	*line;
 	int		error;
-	//int i = 0;
 
 	ret = 1;
 	error = 0;
 	if (ft_dup(pass) == -1)
-	{
-	/*	i = 0;
-		while (i < pass->a_len)
-		{
-			ft_printf("%i\n", pass->a[i++]);
-		}*/
 		return (ft_error(pass));
-	}
 	while (ret == 1)
 	{
 		ret = get_next_line(0, &line);
@@ -167,82 +112,7 @@ static int	ft_dup_option_check(t_info *pass)
 	return (0);
 }
 
-int	ft_word_count(char *str)
-{
-	int	i;
-	int	count;
-	int	flag;
-
-	i = 0;
-	count = 0;
-	flag = 1;
-	while (str[i] != '\0')
-	{
-		if (str[i] >= '0' && str[i] <= '9' && flag)
-		{
-			++count;
-			flag = 0;
-		}
-		if (str[i] == ' ' || str[i] == '\t')
-			flag = 1;
-		++i;
-	}
-	return (count);
-}
-
-char	*ft_strnccpy(char *dest, char *src, int i)
-{
-	ft_strncpy(dest, src, i);
-	dest[i] = '\0';
-	return (dest);
-}
-
-int	ft_collect(t_info *pass, char *argv[], int argc)
-{
-	int	len;
-	int	i;
-	char	dest[12];
-	int		hold;
-
-	i = 1;
-	while (i < argc)
-	{
-		len = 0;
-		while (len < (int)ft_strlen(argv[i]))
-		{
-			while (argv[i][len] != ' ' && argv[i][len] != '\0')
-			{
-				if (argv[i][len] < '0' || argv[i][len] > '9')
-				{
-					if (argv[i][len] == '-' && (len == 0 || argv[i][len - 1] == ' '))
-						break ;
-					return (ft_error(pass));
-				}
-				++len;
-			}
-			++len;
-		}
-		len = 0;
-		while (len < (int)ft_strlen(argv[i]))
-		{
-			while (argv[i][len] == ' ')
-				++len;
-			hold = ft_strlen_stop(&argv[i][len], ' ');
-			if (hold > 11 || (argv[i][len] == '-' && hold >= 11 && ft_strcmp("-2147483648", ft_strnccpy(dest, &argv[i][len], hold)) < 0))
-				return (ft_error(pass));
-			if (ft_strcmp("2147483647", dest) < 0 && hold >= 10)
-				return (ft_error(pass));
-			pass->a[pass->a_len++]  = ft_atoi(&argv[i][len]);
-			len += hold;
-		}
-		++i;
-	}
-	if (pass->a_len != pass->total)
-		ft_printf("MEZZ UPPP\n"); //remove when done
-	return (1); //this should return a count of ints
-}
-
-t_info	*ft_create(t_info *pass, int argc, char *argv[])
+/*t_info	*ft_create(t_info *pass, int argc, char *argv[])
 {
 	int	count;
 	int	i;
@@ -255,7 +125,7 @@ t_info	*ft_create(t_info *pass, int argc, char *argv[])
 	if (!pass)
 		return (NULL);
 	while (i < argc)
-		count += ft_word_count(argv[i++]);
+		count += ft_numb_count(argv[i++]);
 	pass->a = (int *) malloc(count * sizeof(int *));
 	pass->b = (int *) malloc(count * sizeof(int *));
 	if (!pass->a || !pass->b)
@@ -267,7 +137,7 @@ t_info	*ft_create(t_info *pass, int argc, char *argv[])
 	pass->b_len = 0;
 	pass->total = count;
 	return (pass);
-}
+}*/
 
 int main(int argc, char *argv[])
 {
