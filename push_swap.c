@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/18 14:14:35 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/18 17:35:44 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ int	main(int argc, char *argv[])
 	//inside own while loop
 	while (ft_solved(pass) == -1)
 	{
-		if ((ft_order(pass, 1) == -1 && pass->a[0] < pass->a[1] && pass->a[0] != pass->max && pass->a[1] != pass->max) || (pass->a[0] == pass->max && ft_order(pass, 2) == -1))
-		{
-			ft_pb(pass);
-			ft_printf("pb\n");
-			return (0);
-		}
 		i = 0;
 		if (pass->b_len > 0)
 		{
@@ -90,9 +84,12 @@ int	main(int argc, char *argv[])
 			}
 			++i;
 		}
-		//if (solved == 0)
-		//	break ;
-		if (((ft_order(pass, 2) == -1 && pass->a[1] < pass->a[0] && (pass->a[0] != pass->max || pass->a[1] == pass->min || pass->a[0] != pass->min || pass->a[1] == pass->max))))
+		if ((ft_order(pass, 2) == -1 && pass->a[0] < pass->a[1] && pass->a[1] != pass->max) || (pass->a[0] == pass->max && ft_order(pass, 2) == -1))
+		{
+			ft_pb(pass);
+			ft_printf("pb\n");
+		}
+		if (((pass->a[1] < pass->a[0] && (pass->a[1] != pass->max || pass->a[0] == pass->min || pass->a[1] != pass->min || pass->a[0] == pass->max))))
 		{
 			if (pass->b[1] == pass->min_b && pass->b_len > 1)
 			{
@@ -111,8 +108,9 @@ int	main(int argc, char *argv[])
 				pass->max_pos = 0;
 		}
 		//ft_printf("relativ_max  = %i   max_pos = %i    relativ_min = %i   min_pos = %i\n", pass->a_len - pass->max_pos, pass->max_pos, pass->a_len - pass->min_pos, pass->min_pos);
-		if (pass->min_pos <= (pass->a_len - pass->max_pos && pass->max_pos))
+		if (pass->min_pos <= (pass->a_len - pass->max_pos && pass->max_pos) && pass->min_pos != 0)
 		{
+			//ft_printf("min_pos = %i   relativ = %i\n", pass->min_pos, );
 			if (pass->min_pos <= (pass->a_len - pass->min_pos))
 			{
 				while (pass->min_pos > 0)
@@ -156,6 +154,7 @@ int	main(int argc, char *argv[])
 		}
 		else if (pass->max_pos <= ((pass->a_len - pass->min_pos) && pass->min_pos) && pass->max_pos != 0)
 		{
+			//ft_printf("2\n");
 			if (pass->max_pos <= pass->a_len - pass->max_pos)
 			{
 				while (pass->max_pos > 0)
@@ -197,8 +196,9 @@ int	main(int argc, char *argv[])
 				}
 			}
 		}
-		else if (pass->min_pos <= (pass->a_len - pass->min_pos))
+		else if (pass->min_pos <= (pass->a_len - pass->min_pos) && pass->min_pos != 0)
 		{
+			//ft_printf("3\n");
 			//if (pass->min_pos == (pass->a_len - pass->max_pos))
 			//{
 				while (pass->min_pos > 0)
@@ -220,6 +220,7 @@ int	main(int argc, char *argv[])
 		}
 		else if (pass->max_pos <= (pass->a_len - pass->max_pos))
 		{
+			//ft_printf("4\n");
 			//if (pass->max_pos == (pass->a_len - pass->min_pos))
 			//{
 				while (pass->max_pos > 0)
