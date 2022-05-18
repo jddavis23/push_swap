@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/17 12:17:28 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/18 12:42:46 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ typedef struct	s_info
 	int		min_pos;
 	int		max;
 	int		max_pos;
+	int		min_b;
+	int		min_b_pos;
 }				t_info;
 
 void	ft_sa(t_info *pass);
