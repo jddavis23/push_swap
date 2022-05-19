@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/19 12:20:33 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/19 17:33:37 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ int	main(int argc, char *argv[])
 				ft_printf("rra\n");
 				ft_iniit(pass);
 			}
+		}
+		if (pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1])
+		{ //look at making this while loop, mixed with sa
+			ft_rra(pass);
+			ft_printf("rra\n");
+			ft_iniit(pass);
 		}
 		if (ft_order(pass, 1, pass->a_len) == -1 && ft_order(pass, 2, pass->a_len) == -1 && pass->a[0] < pass->a[pass->a_len - 1])
 		{
