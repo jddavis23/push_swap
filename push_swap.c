@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/19 17:33:37 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/20 13:27:58 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_iniit(t_info *pass)
 int	main(int argc, char *argv[])
 {
 	t_info *pass;
-	int p = 0;
+//	int p = 0;
 
 	pass = NULL;
 	pass = ft_create(pass, argc, argv);
@@ -97,47 +97,64 @@ int	main(int argc, char *argv[])
 			ft_printf("pa\n");
 			ft_iniit(pass);
 		}
-		if (pass->a[0] > pass->a[1])// && pass->a[0] < pass->a[pass->a_len - 1])
+		while (pass->a[0] > pass->a[1])// && pass->a[0] < pass->a[pass->a_len - 1])
 		{
-			ft_sa(pass);
-			ft_printf("sa\n");
-			ft_iniit(pass);
-		}
-		if (pass->min_pos <= pass->a_len / 2 && pass->min_pos != 0)
-		{
-			while (pass->min_pos != 0)
+			if (pass->b_len > 1 && pass->b[0] < pass->b[1])
 			{
-				ft_ra(pass);
-				ft_printf("ra\n");
+				ft_ss(pass);
+				ft_printf("ss\n");
+			}
+			else
+			{
+				ft_sa(pass);
+				ft_printf("sa\n");
+			}
+			ft_iniit(pass);
+			while ((pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]) || pass->a[pass->a_len - 1] < pass->a[0])
+			{ //look at making this while loop, mixed with sa
+				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1])
+				{
+					ft_rrr(pass);
+					ft_printf("rrr\n");
+				}
+				else
+				{
+					ft_rra(pass);
+					ft_printf("rra\n");
+				}
+				if (pass->a[0] > pass->a[1])
+					break ;
 				ft_iniit(pass);
 			}
 		}
-		else if (ft_order(pass, 1, pass->a_len) == -1)
+		while (pass->a[pass->a_len - 1] < pass->a[0] || (pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]))
 		{
-			while (pass->min_pos != 0)
+			if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1])
+			{
+				ft_rrr(pass);
+				ft_printf("rrr\n");
+			}
+			else
 			{
 				ft_rra(pass);
 				ft_printf("rra\n");
-				ft_iniit(pass);
 			}
-		}
-		if (pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1])
-		{ //look at making this while loop, mixed with sa
-			ft_rra(pass);
-			ft_printf("rra\n");
+			if (pass->a[0] > pass->a[1])
+				break ;
 			ft_iniit(pass);
 		}
-		if (ft_order(pass, 1, pass->a_len) == -1 && ft_order(pass, 2, pass->a_len) == -1 && pass->a[0] < pass->a[pass->a_len - 1])
+		
+		if (ft_order(pass, 1, pass->a_len) == -1 && pass->a[0] < pass->a[pass->a_len - 1] && pass->a[0] < pass->a[1])
 		{
 			ft_pb(pass);
 			ft_printf("pb\n");
 		}
 	}
-	ft_printf("\nchecking\n");
+	/*ft_printf("\nchecking\n");
 	while (p < pass->a_len)
 	{
 		ft_printf("%i  a_len = %i\n", pass->a[p++], pass->a_len);
-	}
+	}*/
 	return (0);
 
 }
