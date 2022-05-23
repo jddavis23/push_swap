@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/23 13:21:02 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/23 16:22:57 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ void	ft_iniit(t_info *pass)
 	}
 }
 
-int	ft_b_order(t_info *pass)
+int	ft_b_order(t_info *pass, int len)
 {
 	int	i;
 
 	i = 1;
-	while (i < pass->b_len)
+	while (i < len)
 	{
 		if (pass->b[i] > pass->b[i - 1])
 			return (-1);
@@ -99,7 +99,9 @@ void	ft_next_up(t_info *pass)
 			break ;
 		++i;
 	}
-	if (i <= pass->a_len / 2 && (i != 0 || (ft_b_order(pass) == 0 && pass->b_len > 1)))
+	if (i == pass->a_len)
+		--i;
+	if (i <= pass->a_len / 2 && (i != 1 || (ft_b_order(pass, 3) == 0 && pass->b_len > 3)))
 	{
 		//ft_printf("here\n");
 		while (i > 0)
@@ -135,6 +137,57 @@ void	ft_next_up(t_info *pass)
 		}
 	}
 }
+
+void ft_next_up_b(t_info *pass)
+{
+	 int	i;
+	 int	hold;
+
+	 i = 0;
+	 while (i < pass->b_len)
+	 {
+		 if (pass->b[i] < pass->a[0])
+			 break ;
+		 ++i;
+	 }
+	 if (i == pass->b_len)
+	 	--i;
+	 if ( i <= pass->b_len / 2 && (i != 1 || (ft_order(pass, 1, 3) == 0 && pass->a_len > 3)))
+	 {
+		 while (i > 0)
+		 {
+			 if (pass->a_len > 1 && pass->a[0] > pass->a[pass->a_len - 1])
+			 {
+				 ft_rr(pass);
+				 ft_printf("rr\n");
+			 }
+			 else
+			 {
+				 ft_rb(pass);
+				 ft_printf("rb\n");
+			 }
+			 --i;
+		 }
+	 }
+	 else if (i > pass->b_len / 2) 
+	 {
+		hold = pass->b[i];
+		while (pass->b[0] != hold)
+		{
+			if (pass->a_len > 1 && pass->a[0] > pass->a[pass->a_len - 1])
+			{
+				ft_rrr(pass);
+				ft_printf("rrr\n");
+			}
+			else
+			{
+				ft_rrb(pass);
+				ft_printf("rrb\n");
+			}
+		}
+	 }
+}
+
 
 int	main(int argc, char *argv[])
 {
@@ -211,8 +264,10 @@ int	main(int argc, char *argv[])
 			ft_iniit(pass);
 		}
 		
-		if (ft_order(pass, 1, pass->a_len) == -1 && pass->a[0] < pass->a[pass->a_len - 1] && pass->a[0] < pass->a[1])
+		if (ft_order(pass, 1, pass->a_len) == -1  && pass->a[0] < pass->a[1])//&& pass->a[0] < pass->a[pass->a_len - 1] && pass->a[0] < pass->a[1])
 		{
+			if (pass->b_len > 2)
+				ft_next_up_b(pass);
 			ft_pb(pass);
 			ft_printf("pb\n");
 		}
@@ -225,197 +280,3 @@ int	main(int argc, char *argv[])
 	return (0);
 
 }
-
-
-
-
-
-
-
-
-		/*if ((ft_order(pass, 2) == -1 && pass->a[0] < pass->a[1] && pass->a[1] != pass->max) || (pass->a[0] == pass->max && ft_order(pass, 2) == -1))
-		{
-			ft_pb(pass);
-			ft_printf("pb\n");
-		}
-		if (((pass->a[1] < pass->a[0] && (pass->a[1] != pass->max || pass->a[0] == pass->min || pass->a[1] != pass->min || pass->a[0] == pass->max))))
-		{
-			if (pass->b[1] == pass->min_b && pass->b_len > 1)
-			{
-				ft_ss(pass);
-				pass->min_b_pos = 0;
-				ft_printf("ss\n");
-			}
-			else
-			{
-				ft_sa(pass);
-				ft_printf("sa\n");
-			}
-			if (pass->a[0] == pass->min)
-				pass->min_pos = 0;
-			else if (pass->a[0] == pass->max)
-				pass->max_pos = 0;
-		}
-		//ft_printf("relativ_max  = %i   max_pos = %i    relativ_min = %i   min_pos = %i\n", pass->a_len - pass->max_pos, pass->max_pos, pass->a_len - pass->min_pos, pass->min_pos);
-		if (pass->min_pos <= (pass->a_len - pass->max_pos && pass->max_pos) && pass->min_pos != 0)
-		{
-			//ft_printf("min_pos = %i   relativ = %i\n", pass->min_pos, );
-			if (pass->min_pos <= (pass->a_len - pass->min_pos))
-			{
-				while (pass->min_pos > 0)
-				{
-					if (pass->min_b_pos <= pass->b_len / 2 && pass->min_b_pos != 0 && pass->b_len > 1) //look at adding comparison of even and odd totals for comparing pass->b_len / 2
-					{
-						pass->min_b_pos--;
-						ft_rr(pass);
-						ft_printf("rr\n");
-					}
-					else
-					{
-						ft_ra(pass);
-						ft_printf("ra\n");
-					}
-					pass->min_pos--;
-				}
-			}
-			else
-			{
-				while (pass->min_pos != 0)
-				{
-					if (pass->min_b_pos > pass->b_len / 2 && pass->min_b_pos != 0 && pass->b_len > 1)
-					{
-						pass->min_b_pos++;
-						if (pass->min_b_pos == pass->b_len)
-							pass->min_b_pos = 0;
-						ft_rrr(pass);
-						ft_printf("rrr\n");
-					}
-					else
-					{
-						ft_rra(pass);
-						ft_printf("rra\n");
-					}
-					pass->min_pos++;
-					if (pass->a[0] == pass->min)
-						pass->min_pos = 0;
-				}
-			}
-		}
-		else if (pass->max_pos <= ((pass->a_len - pass->min_pos) && pass->min_pos) && pass->max_pos != 0)
-		{
-			//ft_printf("2\n");
-			if (pass->max_pos <= pass->a_len - pass->max_pos)
-			{
-				while (pass->max_pos > 0)
-				{
-					if (pass->min_b_pos <= pass->b_len / 2 && pass->min_b_pos != 0 && pass->b_len > 1)
-					{
-						pass->min_b_pos--;
-						ft_rr(pass);
-						ft_printf("rr\n");
-					}
-					else
-					{
-						ft_ra(pass);
-						ft_printf("ra\n");
-					}
-					pass->max_pos--;
-				}
-			}
-			else
-			{
-				while (pass->max_pos != 0)
-				{
-					if (pass->min_b_pos > pass->b_len / 2 && pass->min_b_pos != 0 && pass->b_len > 1)
-					{
-						pass->min_b_pos++;
-						if (pass->b[0] == pass->min_b)
-							pass->min_b_pos = 0;
-						ft_rrr(pass);
-						ft_printf("rrr\n");
-					}
-					else
-					{
-						ft_rra(pass);
-						ft_printf("rra\n");
-					}
-					pass->max_pos++;
-					if (pass->a[0] == pass->max)
-						pass->max_pos = 0;
-				}
-			}
-		}
-		else if (pass->min_pos <= (pass->a_len - pass->min_pos) && pass->min_pos != 0)
-		{
-			//ft_printf("3\n");
-			//if (pass->min_pos == (pass->a_len - pass->max_pos))
-			//{
-				while (pass->min_pos > 0)
-				{
-					if (pass->min_b_pos <= pass->b_len / 2 && pass->min_b_pos != 0 && pass->b_len > 1)
-					{
-						pass->min_b_pos--;
-						ft_rr(pass);
-						ft_printf("rr\n");
-					}
-					else
-					{
-						ft_ra(pass);
-						ft_printf("ra\n");
-					}
-					pass->min_pos--;
-				}
-			//}
-		}
-		else if (pass->max_pos <= (pass->a_len - pass->max_pos))
-		{
-			//ft_printf("4\n");
-			//if (pass->max_pos == (pass->a_len - pass->min_pos))
-			//{
-				while (pass->max_pos > 0)
-				{
-					if (pass->min_b_pos <= pass->b_len / 2 && pass->min_b_pos != 0 && pass->b_len > 1)
-					{
-						pass->min_b_pos--;
-						ft_rr(pass);
-						ft_printf("rr\n");
-					}
-					else
-					{
-						ft_ra(pass);
-						ft_printf("ra\n");
-					}
-					pass->max_pos--;
-				}
-			//}
-		}
-		if (ft_order(pass, 1) == 0 && pass->b_len != 0)
-		{
-			ft_pa(pass);
-			ft_printf("pa\n");
-			if (pass->a[0] > pass->a[1] && pass->b_len > 0)
-			{
-				if (pass->b[1] == pass->min_b && pass->b_len > 1)
-				{
-					ft_rr(pass);
-					ft_printf("rr\n");
-					pass->min_b_pos = 0;
-				}
-				else
-				{
-					ft_ra(pass);
-					ft_printf("ra\n");
-				}
-				pass->max_pos = pass->a_len - 1;
-			}
-		}
-	}
-	ft_printf("\nchecking\n");
-	while (p < pass->a_len)
-	{
-		ft_printf("%i  a_len = %i\n", pass->a[p++], pass->a_len);
-	}
-	return (0);
-
-}
-*/
