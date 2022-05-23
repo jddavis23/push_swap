@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/23 13:03:04 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/23 13:21:02 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	main(int argc, char *argv[])
 			ft_printf("pa\n");
 			ft_iniit(pass);
 		}
-		while (pass->a[0] > pass->a[1])//  && pass->a[0] < pass->a[pass->a_len - 1])
+		while (pass->a[0] > pass->a[1]  && pass->a[0] < pass->a[pass->a_len - 1])
 		{
 			if (pass->b_len > 1 && pass->b[0] < pass->b[1])
 			{
