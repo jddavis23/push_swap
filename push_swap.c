@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/23 16:22:57 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/23 17:30:34 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_order(t_info *pass, int i, int len)
 	return (solved);
 }
 
-void	ft_iniit(t_info *pass)
+/*void	ft_iniit(t_info *pass)
 {
 	int	i;
 
@@ -71,7 +71,7 @@ void	ft_iniit(t_info *pass)
 		}
 		++i;
 	}
-}
+}*/
 
 int	ft_b_order(t_info *pass, int len)
 {
@@ -204,15 +204,13 @@ int	main(int argc, char *argv[])
 		return (ft_error(pass));
 	while (ft_solved(pass) == -1)
 	{
-		ft_iniit(pass);
 		if ((ft_order(pass, 1, pass->a_len) == 0) && pass->b_len > 0)
 		{
 			ft_next_up(pass);
 			ft_pa(pass);
 			ft_printf("pa\n");
-			ft_iniit(pass);
 		}
-		while (pass->a[0] > pass->a[1]  && pass->a[0] < pass->a[pass->a_len - 1])
+		while (pass->a[0] > pass->a[1]  && pass->a[0] < pass->a[pass->a_len - 1]) //find away of getting the longest ascending sequence to the top
 		{
 			if (pass->b_len > 1 && pass->b[0] < pass->b[1])
 			{
@@ -224,7 +222,6 @@ int	main(int argc, char *argv[])
 				ft_sa(pass);
 				ft_printf("sa\n");
 			}
-			ft_iniit(pass);
 			while ((pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]) || pass->a[pass->a_len - 1] < pass->a[0])
 			{
 				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1])
@@ -239,7 +236,6 @@ int	main(int argc, char *argv[])
 				}
 				if (pass->a[0] > pass->a[1])
 					break ;
-				ft_iniit(pass);
 			}
 		}
 		while (pass->a[pass->a_len - 1] < pass->a[0] || (pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]))
@@ -261,7 +257,6 @@ int	main(int argc, char *argv[])
 			}
 			if (pass->a[0] > pass->a[1])
 				break ;
-			ft_iniit(pass);
 		}
 		
 		if (ft_order(pass, 1, pass->a_len) == -1  && pass->a[0] < pass->a[1])//&& pass->a[0] < pass->a[pass->a_len - 1] && pass->a[0] < pass->a[1])
