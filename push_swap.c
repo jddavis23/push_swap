@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/24 12:23:27 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/05/24 18:41:45 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,16 +203,14 @@ int	main(int argc, char *argv[])
 		return (ft_error(pass));
 	while (ft_solved(pass) == -1)
 	{
-		while ((ft_order(pass, 1, pass->a_len) == 0) && pass->b_len > 0)
+		while (((pass->b[0] > pass->a[pass->a_len - 1] && pass->b[0] < pass->a[0]) ||ft_order(pass, 1, pass->a_len) == 0) && pass->b_len > 0)
 		{
-			//ft_printf("1\n");
 			ft_next_up(pass);
 			ft_pa(pass);
 			ft_printf("pa\n");
 		}
-		while (pass->a[0] > pass->a[1]  && pass->a[0] < pass->a[pass->a_len - 1]) //find away of getting the longest ascending sequence to the top
+		/*while (pass->a[0] > pass->a[1]  && pass->a[0] < pass->a[pass->a_len - 1]) //find away of getting the longest ascending sequence to the top
 		{
-			//ft_printf("2\n");
 			if (pass->b_len > 0 && pass->b[0] > pass->a[pass->a_len - 1] && pass->b[0] < pass->a[0])
 			{
 				ft_next_up(pass);
@@ -229,20 +227,17 @@ int	main(int argc, char *argv[])
 				ft_sa(pass);
 				ft_printf("sa\n");
 			}
-			while ((pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]) || pass->a[pass->a_len - 1] < pass->a[0])
+		}*/
+		if ((pass->a[pass->a_len - 1] < pass->a[0] || pass->a[pass->a_len - 1] < pass->a[0]) && (pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]))
+		{
+			while (pass->a[pass->a_len - 1] < pass->a[0] || (pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]))
 			{
-				if (pass->b_len > 0 && pass->b[0] > pass->a[pass->a_len - 1] && pass->b[0] < pass->a[0])
-				{
-					ft_next_up(pass);
-					ft_pa(pass);
-					ft_printf("pa\n");
-				}
 				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1])
 				{
 					ft_rrr(pass);
 					ft_printf("rrr\n");
 				}
-				else
+				else if ((pass->b_len > 0 && pass->b[0] > pass->a[0]) || (pass->b_len == 0 || (pass->b_len > 0 && pass->b[0] < pass->a[0])))
 				{
 					ft_rra(pass);
 					ft_printf("rra\n");
@@ -251,14 +246,10 @@ int	main(int argc, char *argv[])
 					break ;
 			}
 		}
-		if ((pass->a[0] > pass->a[pass->a_len - 1]) && ((pass->b_len > 0 && pass->b[0] > pass->a[0]) || pass->b_len == 0))		{
-			while ((pass->a[0] > pass->a[pass->a_len - 1]))// && ((pass->b_len > 0 && pass->b[0] > pass->a[0]) || pass->b_len == 0))
+		else if (pass->a[pass->a_len - 1] < pass->a[0])
+		{
+			while (pass->a[pass->a_len - 1] < pass->a[0])
 			{
-				/*ft_printf("3\n");
-				ft_printf("b len = %i\n", pass->b_len);
-				ft_printf("a len = %i\n", pass->a_len);
-				ft_printf("a top = %i\n", pass->a[0]);
-				ft_printf("b top = %i\n", pass->b[0]);*/
 				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1])
 				{
 					ft_rr(pass);
@@ -271,34 +262,23 @@ int	main(int argc, char *argv[])
 				}
 			}
 		}
-		else
+		while (pass->a[0] > pass->a[1]  && pass->a[0] < pass->a[pass->a_len - 1]) //find away of getting the longest ascending sequence to the top
 		{
-			while (pass->a[pass->a_len - 1] < pass->a[0] || (pass->a[pass->a_len - 1] > pass->a[0] && pass->a[1] > pass->a[pass->a_len  - 1]))
+			if (pass->b_len > 1 && pass->b[0] < pass->b[1])
 			{
-				if (pass->b_len > 0 && pass->b[0] > pass->a[pass->a_len - 1] && pass->b[0] < pass->a[0])
-				{
-					ft_next_up(pass);
-					ft_pa(pass);
-					ft_printf("pa\n");
-				}
-			if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1])
-			{
-				ft_rrr(pass);
-				ft_printf("rrr\n");
+				ft_ss(pass);
+				ft_printf("ss\n");
 			}
-			else if ((pass->b_len > 0 && pass->b[0] > pass->a[0]) || (pass->b_len == 0 || (pass->b_len > 0 && pass->b[0] < pass->a[0])))
+			else
 			{
-				ft_rra(pass);
-				ft_printf("rra\n");
-			}
-			if (pass->a[0] > pass->a[1])
-				break ;
+				ft_sa(pass);
+				ft_printf("sa\n");
 			}
 		}
-		while (ft_order(pass, 1, pass->a_len) == -1  && pass->a[0] < pass->a[1])//&& pass->a[0] < pass->a[pass->a_len - 1] && pass->a[0] < pass->a[1])
+		if (ft_order(pass, 1, pass->a_len) == -1)//&& pass->a[0] < pass->a[pass->a_len - 1] && pass->a[0] < pass->a[1])
 		{
 			if (pass->b_len > 2)
-				ft_next_up_b(pass);
+					ft_next_up_b(pass);
 			ft_pb(pass);
 			ft_printf("pb\n");
 		}
