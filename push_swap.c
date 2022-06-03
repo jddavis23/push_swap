@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/03 14:57:16 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/03 17:45:42 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,21 +257,32 @@ int	ft_all_order(int *arr, int len)
 void	ft_build_lis(t_info *pass, int complete, int i)
 {
 	int flag = 0;
+	//int j = 0;
 
 	while (complete < pass->lis)
 	{
-		while (i <= pass->lis_pos)
+		while (i <= pass->lis_pos && ft_all_order(pass->sequence, pass->lis) != 1 && pass->sequence[pass->lis - 1] != pass->a[pass->lis_pos])
 		{
 			if (pass->lis_arr[i] == complete + 1)
 			{
 					pass->sequence[complete] = pass->a[i];
-					flag = 1;
+					++flag;
 			}
 			if (flag && ft_all_order(pass->sequence, complete + 1) == 1 && complete == pass->lis - 1 && pass->sequence[complete] == pass->a[pass->lis_pos])
-				break ;
-			else if (flag && ft_all_order(pass->sequence, complete + 1) == 1)
 			{
-				flag = 0;
+				/*j = 0;
+				while (j < complete + 1)
+					ft_printf("%i--  ", pass->sequence[j++]);
+				ft_printf("\nENNNNND\n");*/	
+				break ;
+			}
+			else if (flag && flag != 2 && ft_all_order(pass->sequence, complete + 1) == 1)
+			{
+				/*j = 0;
+				while (j < complete + 1)
+					ft_printf("%i--  ", pass->sequence[j++]);
+				ft_printf("\n");*/	
+				--flag;
 				ft_build_lis(pass, complete + 1, i + 1);
 			}
 			++i;
@@ -311,9 +322,9 @@ int	main(int argc, char *argv[])
 	{
 		while (ft_all_order(pass->a, pass->a_len) == -1 && pass->a_len > 4)
 		{
-			//ft_printf("a0 = %i   seq j = %i\n", pass->a[0], pass->sequence[j]);
-			if (pass->a[0] == pass->sequence[j])
+			while (pass->a[0] == pass->sequence[j])
 			{
+				//ft_printf("a0 = %i   seq j = %i\n", pass->a[0], pass->sequence[j]);
 				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1])
 				{
 					ft_rr(pass);
@@ -435,7 +446,7 @@ int	main(int argc, char *argv[])
 		//	ft_printf("pb\n");
 		//}
 	}
-	while ((ft_order(pass, 1, pass->a_len) == 0) && pass->b_len > 0)
+	while (pass->b_len > 0)
 	{
 		//ft_printf("1\n");
 		ft_next_up(pass);
