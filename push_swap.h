@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/18 12:42:46 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/03 13:11:59 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ typedef struct	s_info
 {
 	int		*a;
 	int		*b;
+	int		*lis_arr;
+	int		*sequence;
+	int		lis;
+	int		lis_pos;
 	int		a_len;
 	int		b_len;
 	int		total;
