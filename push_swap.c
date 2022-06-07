@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/07 12:03:51 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/07 17:03:08 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	ft_next_up(t_info *pass)
 				}
 			}
 		}
-			ft_printf("b[0] %i  ***   a[0] %i     a[last] %i     min %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1], pass->min);
+			//ft_printf("b[0] %i  ***   a[0] %i     a[last] %i     min %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1], pass->min);
 		return;
 	}
 	else if (pass->b[0] > pass->max)
@@ -167,7 +167,7 @@ void	ft_next_up(t_info *pass)
 				}
 			}
 		}
-		ft_printf("b[0] %i   +++  a[0] %i     a[last] %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1]);
+		//ft_printf("b[0] %i   +++  a[0] %i     a[last] %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1]);
 		return;
 	}
 	while (i < pass->a_len)
@@ -198,7 +198,7 @@ void	ft_next_up(t_info *pass)
 				}
 				--i;
 			}
-			ft_printf("b[0] %i     a[0] %i     a[last] %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1]);
+		//	ft_printf("b[0] %i     a[0] %i     a[last] %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1]);
 		}
 		else if (i > pass->a_len / 2)
 		{
@@ -218,14 +218,91 @@ void	ft_next_up(t_info *pass)
 				}
 				++i;
 			}
-			ft_printf("b[0] %i  --   a[0] %i\n", pass->b[0], pass->a[0]);
+		//	ft_printf("b[0] %i  --   a[0] %i\n", pass->b[0], pass->a[0]);
 		}
 	}
 }
 
-void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficiently. placement does not have to be perfect but should include at least positions 0, 1 and last
+void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficiently
 {
-	 int	i;
+	//if (pass->b == 0)
+	//
+	//if (pass->b == 1)
+	//
+	//if (pass->b == 2)
+	//
+	//if (pass->b == 3)
+	//
+	//if (pass->b > 3)
+	int	i;
+
+	i = 0;
+	while (i < pass->b_len)
+	{
+		if (pass->b[i] < pass->a[0])
+			break;
+		++i;
+	}
+	if (pass->b_len == 0)
+	{
+		ft_pb(pass);
+		ft_printf("pb\n");
+	}
+	else if (pass->b_len == 1)
+	{
+		ft_pb(pass);
+		ft_printf("pb\n");
+		if (pass->b[0] < pass->b[1])
+		{
+			ft_sb(pass);
+			ft_printf("sb\n");
+		}
+	}
+	else if (pass->b_len == 2)
+	{
+		ft_pb(pass);
+		ft_printf("pb\n");
+		if (i == 1)
+		{
+			ft_sb(pass);
+			ft_printf("sb\n");
+		}
+		else if (i > 1)
+		{
+			ft_rb(pass);
+			ft_printf("rb\n");
+		}
+	}
+	else if (pass->b_len > 2)
+	{
+		if (pass->a[0] < pass->b[pass->b_len - 1])
+		{
+			ft_pb(pass);
+			ft_printf("pb\n");
+			ft_rb(pass);
+			ft_printf("rb\n");
+		}
+		else if (pass->a[0] < pass->b[0])
+		{
+			ft_rb(pass);
+			ft_printf("rb\n");
+			ft_pb(pass);
+			ft_printf("pb\n");
+			if (pass->b[0] < pass->b[1])
+			{
+				ft_sb(pass);
+				ft_printf("sb\n");
+			}
+		}
+		else if (pass->a[0] > pass->b[0])
+		{
+			ft_pb(pass);
+			ft_printf("pb\n");
+		}
+	}
+}
+			
+	 /*int	i;
 	 int	hold;
 
 	 i = 0;
@@ -240,7 +317,7 @@ void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficie
 	 if ( i <= pass->b_len / 2 && (i != 1 || (ft_order(pass, 1, 3) == 0 && pass->a_len > 3)))
 	 {
 		 while (i > 0)
-		 {
+		 {*/
 			 /*if (pass->a_len > 1 && pass->a[0] > pass->a[pass->a_len - 1])
 			 {
 				 ft_rr(pass);
@@ -248,7 +325,7 @@ void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficie
 			 }
 			 else
 			 {*/
-				 ft_rb(pass);
+		/*		 ft_rb(pass);
 				 ft_printf("rb\n");
 			 //}
 			 --i;
@@ -258,7 +335,7 @@ void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficie
 	 {
 		hold = pass->b[i];
 		while (pass->b[0] != hold)
-		{
+		{*/
 			/*if (pass->a_len > 1 && pass->a[0] > pass->a[pass->a_len - 1])
 			{
 				ft_rrr(pass);
@@ -266,12 +343,12 @@ void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficie
 			}
 			else
 			{*/
-				ft_rrb(pass);
+/*				ft_rrb(pass);
 				ft_printf("rrb\n");
 			//}
 		}
 	 }
-}
+}*/
 
 int	ft_max_of(int a, int b)
 {
@@ -422,12 +499,20 @@ int	main(int argc, char *argv[])
 				}
 				++j;
 			}
-			//if (pass->b_len > 2)
-			//	ft_next_up_b(pass);
-			ft_pb(pass);
-			ft_printf("pb\n");
+			if (j - 1 > 0 && pass->a[0] < pass->sequence[j] && pass->a[0] > pass->sequence[j - 1])
+			{
+				ft_sa(pass);
+				ft_printf("sa\n");
+			}
+			ft_next_up_b(pass);
+			if (j - 1 > 0 && pass->a[0] < pass->sequence[j - 1] && pass->a[0] > pass->sequence[j] && ft_all_order(pass->a, pass->a_len) == -1)
+			{
+				ft_ra(pass);
+				ft_printf("ra\n");
+			}
 		}
 	}
+	//exit (0);
 	while (ft_all_order(pass->a, pass->a_len) == -1)
 	{
 
