@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/07 17:03:08 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/08 14:03:40 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,138 +90,114 @@ int	ft_b_order(t_info *pass, int len)
 void	ft_next_up(t_info *pass)
 {
 	int	i;
+	int	j;
 	int	hold;
+	int k;
+	int l;
 
+	j = 0;
 	i = 0;
+	k = 0;
+	l = 0;
 	ft_iniit(pass);
-	if (pass->b[0] < pass->min)
+	while (i < pass->a_len && j < pass->b_len)// && (i < 10 || j < 10))
 	{
-		if (pass->min_pos <= pass->a_len / 2)// && (i != 1 || (ft_b_order(pass, 3) == 0 && pass->b_len > 3)))
-		{
-			//ft_printf("here\n");
-			while (pass->a[0]  != pass->min)
-			{
-				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1] && pass->b[1] < pass->min)
-				{
-					ft_rr(pass);
-					ft_printf("rr\n");
-				}
-				else
-				{
-					ft_ra(pass);
-					ft_printf("ra\n");
-				}
-			}
-		}
-		else if (pass->min_pos > pass->a_len / 2)
-		{
-			while (pass->a[0] != pass->min)
-			{
-				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1] && pass->b[pass->b_len - 1] < pass->min)
-				{
-					ft_rrr(pass);
-					ft_printf("rrr\n");
-				}
-				else
-				{
-					ft_rra(pass);
-					ft_printf("rra\n");
-				}
-			}
-		}
-			//ft_printf("b[0] %i  ***   a[0] %i     a[last] %i     min %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1], pass->min);
-		return;
+		//ft_printf("i %i   j %i\n", i, j);
+		if (pass->a[i] > pass->b[j])
+			break;
+		if (i < pass->a_len)
+			++i;
+		if (j < pass->b_len)
+			++j;
 	}
-	else if (pass->b[0] > pass->max)
+	k = pass->b_len - 1;
+	l = pass->a_len - 1;
+	while (k > 0 && l > 0)// && (l > pass->a_len - 10 || k > pass->b_len - 10))
 	{
-		if (pass->max_pos <= pass->a_len / 2)// && (i != 1 || (ft_b_order(pass, 3) == 0 && pass->b_len > 3)))
-		{
-			//ft_printf("here\n");
-			while (pass->a[0]  != pass->min)
-			{
-				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1] && pass->b[1] > pass->max)
-				{
-					ft_rr(pass);
-					ft_printf("rr\n");
-				}
-				else
-				{
-					ft_ra(pass);
-					ft_printf("ra\n");
-				}
-			}
-		}
-		else if (pass->max_pos > pass->a_len / 2)
-		{
-			while (pass->a[0] != pass->min)
-			{
-				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1] && pass->b[pass->b_len - 1] > pass->max)
-				{
-					ft_rrr(pass);
-					ft_printf("rrr\n");
-				}
-				else
-				{
-					ft_rra(pass);
-					ft_printf("rra\n");
-				}
-			}
-		}
-		//ft_printf("b[0] %i   +++  a[0] %i     a[last] %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1]);
-		return;
+		if (pass->a[l] > pass->b[k])
+			break;
+		if (l > 0)
+			--l;
+		if (k > 0)
+			--k;
 	}
-	while (i < pass->a_len)
+	//ft_printf("l %i    i %i a_len %i\n", l, i, pass->a_len);
+	if (l < i)//pass->a[i] < pass->b[j])
 	{
-		if ((pass->b[0] > pass->a[i - 1] && pass->b[0] < pass->a[i] & i - 1 > 0) ||  (pass->b[0] < pass->a[0] && pass->b[0] && pass->b[0] > pass->a[pass->a_len - 1]))
-		//if (pass->a[i] > pass->b[0] && pass->b[0] > pass->a[pass->a_len - 1])
-			break ;
-		++i;
-	}
-	//ft_printf("i   %i\n", i);
-	if (i == pass->a_len)
-		--i;
-	if (pass->b[0] > pass->min && pass->b[0] < pass->max)
-	{
-		if (i <= pass->a_len / 2)// && (i != 1 || (ft_b_order(pass, 3) == 0 && pass->b_len > 3)))
+		/*j = pass->b_len - 1;
+		i = pass->a_len - 1;
+		while (j > 0 && i > 0 && (i > pass->a_len - 10 || j > pass->b_len - 10))
 		{
-			while (i > 0)//pass->b[0] > pass->a[0])
-			{
-				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1] && pass->b[1] < pass->a[i] && pass->b[1] > pass->a[i - 1] && i - 1 > 0)	
-				{
-					ft_rr(pass);
-					ft_printf("rr\n");
-				}
-				else
-				{
-					ft_ra(pass);
-					ft_printf("ra\n");
-				}
+			if (pass->a[i] > pass->b[j])
+				break;
+			if (i > 0)
 				--i;
-			}
-		//	ft_printf("b[0] %i     a[0] %i     a[last] %i\n", pass->b[0], pass->a[0], pass->a[pass->a_len - 1]);
-		}
-		else if (i > pass->a_len / 2)
+			if (j > 0)
+				--j;
+		}*/
+		//ft_printf("NOW\n");
+		hold = pass->b[k];
+		while (pass->a[0] < hold && pass->b[0] != hold)
 		{
-			hold = pass->a[i];
-			ft_iniit(pass);
-			while (i < pass->a_len)// && (pass->a[pass->a_len - 1] < pass->b[0] || pass->b[0] > pass->max))//pass->a[0]  != hold)//pass->b[0] < pass->a[pass->a_len - 1])
-			{
-				if (pass->b_len > 1 && pass->b[0] < pass->b[pass->b_len - 1] && pass->b[pass->b_len - 1] < hold)
-				{
-					ft_rrr(pass);
-					ft_printf("rrr\n");
-				}
-				else
-				{
-					ft_rra(pass);
-					ft_printf("rra\n");
-				}
-				++i;
-			}
-		//	ft_printf("b[0] %i  --   a[0] %i\n", pass->b[0], pass->a[0]);
+			ft_rrr(pass);
+			ft_printf("rrr\n");
 		}
+		while (pass->b[0] != hold)
+		{
+			//ft_printf("HERE\n");
+			ft_rrb(pass);
+			ft_printf("rrb\n");
+		}
+		while (pass->a[pass->a_len - 1] > hold)
+		{
+			if ((hold > pass->max && pass->a[0] == pass->min) || (hold < pass->min && pass->a[0] == pass->min))
+				break;
+			ft_rra(pass);
+			ft_printf("rra\n");
+		}
+		while (pass->a[0] < hold)
+		{
+			if ((hold > pass->max && pass->a[0] == pass->min) || (hold < pass->min && pass->a[0] == pass->min))
+				break;
+			ft_ra(pass);
+			ft_printf("ra\n");
+		}
+		ft_pa(pass);
+		ft_printf("pa\n");
+		return ;
 	}
+	hold = pass->b[j];
+	while (pass->a[0] < hold && pass->b[0] != hold)
+	{
+		ft_rr(pass);
+		ft_printf("rr\n");
+	}
+	while (pass->b[0] != hold)
+	{
+		ft_rb(pass);
+		ft_printf("rb\n");
+	}
+	while (pass->a[0] < hold)
+	{
+		if ((hold > pass->max && pass->a[0] == pass->min) || (hold < pass->min && pass->a[0] == pass->min))
+			break;
+		ft_ra(pass);
+		ft_printf("ra\n");
+	}
+	while (pass->a[pass->a_len - 1] > hold)
+	{
+		if ((hold > pass->max && pass->a[0] == pass->min) || (hold < pass->min && pass->a[0] == pass->min))
+			break;
+		ft_rra(pass);
+		ft_printf("rra\n");
+	}
+	ft_pa(pass);
+	ft_printf("pa\n");
 }
+
+
+
+
 
 void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficiently
 {
@@ -234,7 +210,7 @@ void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficie
 	//if (pass->b == 3)
 	//
 	//if (pass->b > 3)
-	int	i;
+	/*int	i;
 
 	i = 0;
 	while (i < pass->b_len)
@@ -299,7 +275,9 @@ void ft_next_up_b(t_info *pass)  //optimise this function to place piece efficie
 			ft_pb(pass);
 			ft_printf("pb\n");
 		}
-	}
+	}*/
+	ft_pb(pass);
+	ft_printf("pb\n");
 }
 			
 	 /*int	i;
@@ -499,26 +477,26 @@ int	main(int argc, char *argv[])
 				}
 				++j;
 			}
-			if (j - 1 > 0 && pass->a[0] < pass->sequence[j] && pass->a[0] > pass->sequence[j - 1])
+			/*if (j - 1 > 0 && pass->a[0] < pass->sequence[j] && pass->a[0] > pass->sequence[j - 1])
 			{
 				ft_sa(pass);
 				ft_printf("sa\n");
-			}
+			}*/
 			ft_next_up_b(pass);
-			if (j - 1 > 0 && pass->a[0] < pass->sequence[j - 1] && pass->a[0] > pass->sequence[j] && ft_all_order(pass->a, pass->a_len) == -1)
+			/*if (j - 1 > 0 && pass->a[0] < pass->sequence[j - 1] && pass->a[0] > pass->sequence[j] && ft_all_order(pass->a, pass->a_len) == -1)
 			{
 				ft_ra(pass);
 				ft_printf("ra\n");
-			}
+			}*/
 		}
 	}
 	//exit (0);
 	while (ft_all_order(pass->a, pass->a_len) == -1)
 	{
 
+			ft_printf("2\n");
 		while (pass->a[0] > pass->a[1]  && pass->a[0] < pass->a[pass->a_len - 1]) //find away of getting the longest ascending sequence to the top
 		{
-			//ft_printf("2\n");
 			if (pass->b_len > 0 && pass->b[0] > pass->a[pass->a_len - 1] && pass->b[0] < pass->a[0])
 			{
 				ft_next_up(pass);
@@ -621,8 +599,21 @@ int	main(int argc, char *argv[])
 	while (pass->b_len > 0)
 	{
 		ft_next_up(pass);
-		ft_pa(pass);
-		ft_printf("pa\n");
+		//ft_printf("a_len %i   b_len %i\n", pass->a_len, pass->b_len);
+	}
+	ft_iniit(pass);
+	while (pass->a[0] != pass->min)
+	{
+		if (pass->min_pos < pass->a_len / 2)
+		{
+			ft_ra(pass);
+			ft_printf("ra\n");
+		}
+		else
+		{
+			ft_rra(pass);
+			ft_printf("rra\n");
+		}
 	}
 	return (0);
 
