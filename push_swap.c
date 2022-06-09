@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/09 12:33:34 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/09 17:05:36 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	ft_next_up(t_info *pass)
 			--k;
 	}
 	//ft_printf("l %i    i %i a_len %i\n", l, i, pass->a_len);
-	if (l < i)//pass->a[i] < pass->b[j])
+	if ( 1< 0)//(pass->a_len - l < i)//pass->a[i] < pass->b[j])
 	{
 		//ft_printf("NOW\n");
 		//j = pass->b_len - 1;
@@ -149,7 +149,64 @@ void	ft_next_up(t_info *pass)
 			ft_rrb(pass);
 			ft_printf("rrb\n");
 		}
-		while (pass->a[pass->a_len - 1] > hold)// && l < pass->a_len / 2)
+		i = 0;
+		if (pass->a[0] < hold)
+		{
+			while (i < pass->a_len)
+			{
+				if (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min))
+				{
+					hold = pass->a[i];
+					break;
+				}
+				++i;
+			}
+		}
+		else if ((pass->a[0] > hold && pass->a[pass->a_len - 1] < hold) || (pass->a[0] == pass->min && (hold < pass->min || hold > pass->max)))
+		{
+			hold = pass->a[i];
+		}
+		else if (pass->a[0] > hold)
+		{
+			while (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] != pass->min))
+			{
+				++i;
+			}
+			while (i < pass->a_len)
+			{
+				if (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min) )
+				{
+					hold = pass->a[i];
+					break;
+				}
+				++i;
+			}
+		}
+		if (i < pass->a_len / 2)
+		{
+			i = 0;
+			while (pass->a[0] != hold)
+			{
+				ft_ra(pass);
+				ft_printf("ra\n");
+				++i;
+				if (i > 100)
+					exit (0);
+			}
+		}
+		else
+		{
+			i = 0;
+			while (pass->a[0] != hold)
+			{
+				ft_rra(pass);
+				ft_printf("rra\n");
+				++i;
+				if (i > 100)
+					exit (0);
+			}
+		}
+		/*while (pass->a[pass->a_len - 1] > hold)// && l < pass->a_len / 2)
 		{
 			//ft_printf("1\n");
 			if ((hold > pass->max && pass->a[0] == pass->min) || (hold < pass->min && pass->a[0] == pass->min))
@@ -164,7 +221,7 @@ void	ft_next_up(t_info *pass)
 				break;
 			ft_ra(pass);
 			ft_printf("ra\n");
-		}
+		}*/
 		ft_pa(pass);
 		ft_printf("pa\n");
 		return ;
@@ -179,11 +236,11 @@ void	ft_next_up(t_info *pass)
 	{
 		ft_rb(pass);
 		ft_printf("rb\n");
+	exit (0);
 	}
 	i = 0;
 	if (pass->a[0] < hold)
 	{
-			ft_printf("min %i  a[i] %i\n", pass->min, pass->a[i]);
 		while (i < pass->a_len)
 		{
 			if (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min))
@@ -200,10 +257,9 @@ void	ft_next_up(t_info *pass)
 	}
 	else if (pass->a[0] > hold)
 	{
-		while (pass->a[i] > hold && ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min))
+		while (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] != pass->min))
 		{
 			++i;
-			//ft_printf("i %i  a[i] %i aL %i\n", i , pass->a[i], pass->a_len);
 		}
 		while (i < pass->a_len)
 		{
@@ -220,7 +276,6 @@ void	ft_next_up(t_info *pass)
 		i = 0;
 		while (pass->a[0] != hold)
 		{
-			ft_printf("a[0] %i hold %i min %i\n", pass->a[0], hold, pass->min);
 			ft_ra(pass);
 			ft_printf("ra\n");
 			++i;
@@ -233,7 +288,6 @@ void	ft_next_up(t_info *pass)
 		i = 0;
 		while (pass->a[0] != hold)
 		{
-			ft_printf("a %i last %i min %i %i\n", pass->a[0], pass->a[pass->a_len -1], pass->min, hold);
 			ft_rra(pass);
 			ft_printf("rra\n");
 			++i;
@@ -567,7 +621,7 @@ int	main(int argc, char *argv[])
 		}
 	}
 	//exit (0);
-	while (ft_all_order(pass->a, pass->a_len) == -1)
+	/*while (ft_all_order(pass->a, pass->a_len) == -1)
 	{
 
 			ft_printf("2\n");
@@ -671,7 +725,7 @@ int	main(int argc, char *argv[])
 		//	ft_pb(pass);
 		//	ft_printf("pb\n");
 		//}
-	}
+	}*/
 	while (pass->b_len > 0)
 	{
 		ft_next_up(pass);
