@@ -86,6 +86,60 @@ int	ft_b_order(t_info *pass, int len)
 	}
 	return (0);
 }
+int	ft_moves(t_info *pass, int hold, int choice, int *ptr)
+{
+	int	i;
+
+	i = 0;
+	if (pass->a[0] < hold)
+	{
+		while (i < pass->a_len)
+		{
+			if (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min))
+			{
+				hold = pass->a[i];
+				break;
+			}
+			++i;
+		}
+	}
+	else if ((pass->a[0] > hold && pass->a[pass->a_len - 1] < hold) || (pass->a[0] == pass->min && (hold < pass->min || hold > pass->max)))
+	{
+		hold = pass->a[i];
+	}
+	else if (pass->a[0] > hold)
+	{
+		//ft_printf("a[0] %i  a[last] %i  b[0] %i\n", pass->a[0], pass->a[pass->a_len - 1], pass->b[0]);
+		while (pass->a[i] > hold)
+		{
+			//ft_printf("a[i] %i   i %i   b[0] %i\n", pass->a[i], i, pass->b[0]);
+			if ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min)
+				break;
+			++i;
+		}
+		while (i < pass->a_len)
+		{
+			if (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min) )
+			{
+				hold = pass->a[i];
+				break;
+			}
+			++i;
+		}
+	}
+	if (choice == 1)
+		return (i);
+	else
+	{
+		*ptr = hold;
+		return (i);
+	}
+}
+
+/*int	ft_find_it(t_info *pass)
+{
+
+}*/
 
 void	ft_next_up(t_info *pass)
 {
@@ -93,7 +147,7 @@ void	ft_next_up(t_info *pass)
 	int	j;
 	int	hold;
 	int k;
-	int l;
+	/*int l;
 
 	j = 0;
 	i = 0;
@@ -141,13 +195,12 @@ void	ft_next_up(t_info *pass)
 	}
 	else if (pass->a[0] > hold)
 	{
-		while (pass->a[i] > hold)// || ((hold < pass->min || hold > pass->max) && pass->a[i] != pass->min))
+		//ft_printf("a[0] %i  a[last] %i  b[0] %i\n", pass->a[0], pass->a[pass->a_len - 1], pass->b[0]);
+		while (pass->a[i] > hold)
 		{
-			if (((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min) )
-			{
-			//	hold = pass->a[i];
+			//ft_printf("a[i] %i   i %i   b[0] %i\n", pass->a[i], i, pass->b[0]);
+			if ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min)
 				break;
-			}
 			++i;
 		}
 		while (i < pass->a_len)
@@ -159,29 +212,38 @@ void	ft_next_up(t_info *pass)
 			}
 			++i;
 		}
-	}
+	}*/
+	i = ft_moves(pass, j, 0, &hold);
 	if (i < pass->a_len / 2)
 	{
-		i = 0;
 		while (pass->a[0] != hold)
 		{
-			ft_ra(pass);
-			ft_printf("ra\n");
-			++i;
-			if (i > 100)
-				exit (0);
+			if (pass->b[1] == j)
+			{
+				ft_rr(pass);
+				ft_printf("rr\n");
+			}
+			else
+			{
+				ft_ra(pass);
+				ft_printf("ra\n");
+			}
 		}
 	}
 	else
 	{
-		i = 0;
 		while (pass->a[0] != hold)
 		{
-			ft_rra(pass);
-			ft_printf("rra\n");
-			++i;
-			if (i > 100)
-				exit (0);
+			if (pass->b[pass->b_len - 1] == j)
+			{
+				ft_rrr(pass);
+				ft_printf("rrr\n");
+			}
+			else
+			{
+				ft_rra(pass);
+				ft_printf("rra\n");
+			}
 		}
 	}
 
@@ -274,7 +336,7 @@ int	ft_all_order(int *arr, int len)
 		return (1);
 	while (i < len)
 	{
-		if (arr[i] < arr[i - 1])
+		if (arr[i] <= arr[i - 1])
 			return (-1);
 		++i;
 	}
@@ -285,7 +347,6 @@ int	ft_all_order(int *arr, int len)
 void	ft_build_lis(t_info *pass, int complete, int i)
 {
 	int flag = 0;
-	//int j = 0;
 
 	while (complete < pass->lis)
 	{
@@ -298,7 +359,8 @@ void	ft_build_lis(t_info *pass, int complete, int i)
 			}
 			if (flag && ft_all_order(pass->sequence, complete + 1) == 1 && complete == pass->lis - 1 && pass->sequence[complete] == pass->a[pass->lis_pos])
 			{
-				/*while (j < pass->lis)
+				/*int j = 0;
+				while (j < pass->lis)
 					ft_printf("%i  ", pass->sequence[j++]);
 				ft_printf("END\n");*/
 				break ;
@@ -307,8 +369,6 @@ void	ft_build_lis(t_info *pass, int complete, int i)
 			{
 				ft_build_lis(pass, complete + 1, i + 1);
 			}
-			//else if (flag && ft_all_order(pass->sequence, complete + 1) == -1)
-			//	return;
 			flag = 0;
 			++i;
 		}
@@ -359,15 +419,22 @@ int	main(int argc, char *argv[])
 	if (ft_dup(pass) == -1)
 		return (ft_error(pass));
 	ft_lis(pass);
+	ft_iniit(pass);
 	pass->sequence = (int *)malloc(pass->lis * sizeof(int));
+	mid = ft_median(pass);
+	//ft_printf("mid %i\n", mid);
+	while (j < pass->lis)
+		pass->sequence[j++] = pass->min - 1;
 	if (!pass->sequence)
 	{
 		//delete and return
 		return (0);
 	}
 	ft_build_lis(pass, 0, 0);
-	/*while (j < pass->lis)
+	/*j = 0;
+	while (j < pass->lis)
 		ft_printf("%i  lis_pos %i    value in sequence %i\n", pass->sequence[j++], pass->lis_pos, pass->a[pass->lis_pos]);
+	j = 0;
 	while (j < pass->a_len)
 	{
 		ft_printf("%i   %i\n", pass->a[j], pass->lis_arr[j]);
@@ -380,9 +447,9 @@ int	main(int argc, char *argv[])
 	{
 		while (ft_all_order(pass->a, pass->a_len) == -1 && pass->a_len > 4)
 		{
+				//ft_printf("a0 = %i   seq j = %i %i\n", pass->a[0], pass->sequence[j], j);
 			while (j < pass->lis && pass->a[0] == pass->sequence[j])
 			{
-				//ft_printf("a0 = %i   seq j = %i %i\n", pass->a[0], pass->sequence[j], j);
 				if (pass->b_len > 1 && pass->b[0] < mid)
 				{
 					ft_rr(pass);
@@ -395,11 +462,6 @@ int	main(int argc, char *argv[])
 				}
 				++j;
 			}
-			/*if (j - 1 > 0 && pass->a[0] < pass->sequence[j] && pass->a[0] > pass->sequence[j - 1])
-			{
-				ft_sa(pass);
-				ft_printf("sa\n");
-			}*/
 			ft_next_up_b(pass);
 			if (pass->b_len > 1 && pass->b[0] < mid)
 			{
@@ -408,12 +470,11 @@ int	main(int argc, char *argv[])
 			}
 			/*if (j - 1 > 0 && pass->a[0] < pass->sequence[j - 1] && pass->a[0] > pass->sequence[j] && ft_all_order(pass->a, pass->a_len) == -1)
 			{
-				ft_ra(pass);
-				ft_printf("ra\n");
+				ft_sb(pass);
+				ft_printf("sb\n");
 			}*/
 		}
 	}
-	//exit (0);
 	/*while (ft_all_order(pass->a, pass->a_len) == -1)
 	{
 
