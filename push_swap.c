@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/13 16:43:58 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/14 11:52:21 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,10 @@ int	ft_moves(t_info *pass, int hold, int choice, int *ptr)
 void	ft_next_up(t_info *pass)
 {
 	int	i;
-	int	j;
 	int	hold;
-	int k;
-	/*int l;
+	/*int k;
+	int	j;
+	int l;
 
 	j = 0;
 	i = 0;
@@ -164,8 +164,7 @@ void	ft_next_up(t_info *pass)
 		if (j < pass->b_len)
 			++j;
 	}
-	hold = pass->b[0];
-	/*while (pass->a[0] < hold && pass->b[0] != hold)
+	while (pass->a[0] < hold && pass->b[0] != hold)
 	{
 		ft_rr(pass);
 		ft_printf("rr\n");
@@ -176,7 +175,22 @@ void	ft_next_up(t_info *pass)
 		ft_printf("rb\n");
 	//exit (0);
 	}*/
+	ft_iniit(pass); //look at calculating which is shorter (before or after median) and choose first 
 	i = 0;
+	while (pass->b[0] <= pass->mid) //looking for formular to find either mid or next closest 
+	{
+		while (pass->b[1] <= pass->mid)
+		{
+			ft_ra(pass);
+			ft_printf("ra\n");
+		}
+		while (pass->b[pass->b_len - 1] <= pass->mid)
+		{
+			ft_rra(pass);
+			ft_printf("rra\n");
+		}
+	}
+	hold = pass->b[0];
 	if (pass->a[0] < hold)
 	{
 		while (i < pass->a_len)
@@ -195,12 +209,13 @@ void	ft_next_up(t_info *pass)
 	}
 	else if (pass->a[0] > hold)
 	{
-		//ft_printf("a[0] %i  a[last] %i  b[0] %i\n", pass->a[0], pass->a[pass->a_len - 1], pass->b[0]);
 		while (pass->a[i] > hold)
 		{
-			//ft_printf("a[i] %i   i %i   b[0] %i\n", pass->a[i], i, pass->b[0]);
 			if ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min)
+			{
+			//	hold = pass->a[i];
 				break;
+			}
 			++i;
 		}
 		while (i < pass->a_len)
@@ -212,38 +227,21 @@ void	ft_next_up(t_info *pass)
 			}
 			++i;
 		}
-	}*/
-	i = ft_moves(pass, j, 0, &hold);
+	}
 	if (i < pass->a_len / 2)
 	{
 		while (pass->a[0] != hold)
 		{
-			if (pass->b[1] == j)
-			{
-				ft_rr(pass);
-				ft_printf("rr\n");
-			}
-			else
-			{
 				ft_ra(pass);
 				ft_printf("ra\n");
-			}
 		}
 	}
 	else
 	{
 		while (pass->a[0] != hold)
 		{
-			if (pass->b[pass->b_len - 1] == j)
-			{
-				ft_rrr(pass);
-				ft_printf("rrr\n");
-			}
-			else
-			{
 				ft_rra(pass);
 				ft_printf("rra\n");
-			}
 		}
 	}
 
@@ -408,7 +406,7 @@ int	main(int argc, char *argv[])
 {
 	t_info *pass;
 	int j = 0;
-	int mid;
+	//int mid;
 
 	pass = NULL;
 	pass = ft_create(pass, argc, argv);
@@ -421,7 +419,7 @@ int	main(int argc, char *argv[])
 	ft_lis(pass);
 	ft_iniit(pass);
 	pass->sequence = (int *)malloc(pass->lis * sizeof(int));
-	mid = ft_median(pass);
+	pass->mid = ft_median(pass);
 	//ft_printf("mid %i\n", mid);
 	while (j < pass->lis)
 		pass->sequence[j++] = pass->min - 1;
@@ -440,17 +438,17 @@ int	main(int argc, char *argv[])
 		ft_printf("%i   %i\n", pass->a[j], pass->lis_arr[j]);
 		++j;
 	}
-	exit (0);*/
+	//exit (0);*/
 	j = 0;
 	mid = ft_median(pass);
-	if (ft_all_order(pass->a, pass->a_len) == -1 && pass->a_len > 4)
+	if (ft_all_order(pass->a, pass->a_len) == -1)// && pass->a_len > 4)
 	{
-		while (ft_all_order(pass->a, pass->a_len) == -1 && pass->a_len > 4)
+		while (ft_all_order(pass->a, pass->a_len) == -1)// && pass->a_len > 4)
 		{
 				//ft_printf("a0 = %i   seq j = %i %i\n", pass->a[0], pass->sequence[j], j);
 			while (j < pass->lis && pass->a[0] == pass->sequence[j])
 			{
-				if (pass->b_len > 1 && pass->b[0] < mid)
+				if (pass->b_len > 1 && pass->b[0] > mid)
 				{
 					ft_rr(pass);
 					ft_printf("rr\n");
@@ -467,7 +465,7 @@ int	main(int argc, char *argv[])
 			{
 				ft_rb(pass);
 				ft_printf("rb\n");
-			}
+			} //look at possibly swapping last element if it fits between lis 1 and 2
 			/*if (j - 1 > 0 && pass->a[0] < pass->sequence[j - 1] && pass->a[0] > pass->sequence[j] && ft_all_order(pass->a, pass->a_len) == -1)
 			{
 				ft_sb(pass);
@@ -475,6 +473,7 @@ int	main(int argc, char *argv[])
 			}*/
 		}
 	}
+	//exit (0);
 	/*while (ft_all_order(pass->a, pass->a_len) == -1)
 	{
 
