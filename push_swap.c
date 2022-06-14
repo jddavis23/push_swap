@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/14 11:52:21 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/14 13:26:36 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,15 +136,45 @@ int	ft_moves(t_info *pass, int hold, int choice, int *ptr)
 	}
 }
 
-/*int	ft_find_it(t_info *pass)
+int	ft_find_it(t_info *pass)
 {
+	int	i;
+	int	ret;
 
-}*/
+	i = 0;
+	ret = 0;
+	while (i < pass->b_len - 1)
+	{
+		if (pass->b[i] <= pass->mid)
+			ret = 2;
+		if (pass->b[i] <= pass->mid && pass->b[i] >= pass->quad)
+			return (1);
+		++i;
+	}
+	return (ret);
+}
+
+int	ft_close_mid(t_info *pass)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = pass->b[0];
+	while (pass->b[i] <= pass->quad)
+	{
+		if (pass->b[i] > ret)
+			ret = pass->b[i];
+		++i;
+	}
+	return (ret);
+}
 
 void	ft_next_up(t_info *pass)
 {
 	int	i;
 	int	hold;
+	int	j = 0;
 	/*int k;
 	int	j;
 	int l;
@@ -177,17 +207,56 @@ void	ft_next_up(t_info *pass)
 	}*/
 	ft_iniit(pass); //look at calculating which is shorter (before or after median) and choose first 
 	i = 0;
-	while (pass->b[0] <= pass->mid) //looking for formular to find either mid or next closest 
+	while (pass->b_len > 1 && ft_find_it(pass) != 0) //looking for formular to find either mid or next closest 
 	{
+		j = 0;
+		//ft_printf("HERE\n");
 		while (pass->b[1] <= pass->mid)
 		{
-			ft_ra(pass);
-			ft_printf("ra\n");
+			++j;
+			if (ft_find_it(pass) == 1)
+			{
+				if (pass->b[0] <= pass->mid && pass->b[0] >= pass->quad)
+			   		break;
+				//if (j  > 10)
+				//	exit (0);
+			}
+			else if (ft_find_it(pass) != 1)
+			{
+				ft_printf("mid %i   quad %i  b[0] %i  len %i ret %i\n", pass->mid, pass->quad, pass->b[0], pass->b_len, ft_close_mid(pass));
+				if (pass->b[0] == ft_close_mid(pass))
+					break;
+			}
+			ft_rb(pass);
+			ft_printf("rb\n");
+			if (j  > 50)
+				exit (0);
 		}
 		while (pass->b[pass->b_len - 1] <= pass->mid)
 		{
-			ft_rra(pass);
-			ft_printf("rra\n");
+		//	ft_printf("CLIFF\n");
+			if (ft_find_it(pass) == 1)
+			{
+				if (pass->b[0] <= pass->mid && pass->b[0] >= pass->quad)
+			   		break;
+			}
+			else if (ft_find_it(pass) != 1)
+			{
+				if (pass->b[0] == ft_close_mid(pass))
+					break;
+			}
+			ft_rrb(pass);
+			ft_printf("rrb\n");
+		}
+		if (ft_find_it(pass) == 1)
+		{
+			if (pass->b[0] <= pass->mid && pass->b[0] >= pass->quad)
+				break;
+		}
+		else if (!ft_find_it(pass))
+		{
+			if (pass->b[0] == ft_close_mid(pass))
+				break;
 		}
 	}
 	hold = pass->b[0];
@@ -374,7 +443,7 @@ void	ft_build_lis(t_info *pass, int complete, int i)
 	}
 }
 
-int ft_median(t_info *pass)
+void	ft_median(t_info *pass)
 {
     int i;
     int temp;
@@ -399,7 +468,8 @@ int ft_median(t_info *pass)
 			++i;
 		}
 	}
-	return (pass->b[pass->a_len / 2]);
+	pass->mid = pass->b[pass->a_len / 2];
+	pass->quad = pass->b[pass->a_len / 4];
 }
 
 int	main(int argc, char *argv[])
@@ -419,7 +489,7 @@ int	main(int argc, char *argv[])
 	ft_lis(pass);
 	ft_iniit(pass);
 	pass->sequence = (int *)malloc(pass->lis * sizeof(int));
-	pass->mid = ft_median(pass);
+	ft_median(pass);
 	//ft_printf("mid %i\n", mid);
 	while (j < pass->lis)
 		pass->sequence[j++] = pass->min - 1;
@@ -440,7 +510,7 @@ int	main(int argc, char *argv[])
 	}
 	//exit (0);*/
 	j = 0;
-	mid = ft_median(pass);
+	//mid = ft_median(pass);
 	if (ft_all_order(pass->a, pass->a_len) == -1)// && pass->a_len > 4)
 	{
 		while (ft_all_order(pass->a, pass->a_len) == -1)// && pass->a_len > 4)
@@ -448,7 +518,7 @@ int	main(int argc, char *argv[])
 				//ft_printf("a0 = %i   seq j = %i %i\n", pass->a[0], pass->sequence[j], j);
 			while (j < pass->lis && pass->a[0] == pass->sequence[j])
 			{
-				if (pass->b_len > 1 && pass->b[0] > mid)
+				if (pass->b_len > 1 && pass->b[0] > pass->mid)
 				{
 					ft_rr(pass);
 					ft_printf("rr\n");
@@ -461,7 +531,7 @@ int	main(int argc, char *argv[])
 				++j;
 			}
 			ft_next_up_b(pass);
-			if (pass->b_len > 1 && pass->b[0] < mid)
+			if (pass->b_len > 1 && pass->b[0] > pass->mid)
 			{
 				ft_rb(pass);
 				ft_printf("rb\n");
