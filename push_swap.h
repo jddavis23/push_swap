@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/14 15:48:46 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/15 12:44:14 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct	s_info
 	int		first_quad;
 	int		quad;
 	int		three_quad;
+	int		four_quad;
+	int		b_hold;
+	int		a_hold;
 	int		min_b;
 	int		min_b_pos;
 }				t_info;
