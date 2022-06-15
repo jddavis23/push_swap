@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/15 13:32:00 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/15 18:10:41 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,31 @@ int	ft_next_b(t_info *pass)
 	return (i);
 }
 
+int	ft_next_b_one(t_info *pass)
+{
+	int	i;
+
+	i = pass->b_len - 1;
+	if (ft_find_it(pass) == 3)
+	{
+		//ft_printf("NOW\n");
+		pass->b_hold = pass->b[0];
+		return (0);
+	}
+	while (pass->b[i] <= pass->mid)
+	{
+		//ft_printf("b[0] %i b[L] %i b[i] %i qd %i  1_gd %i\n", pass->b[0], pass->b[pass->b_len - 1], pass->b[i], pass->quad, pass->first_quad);
+		if (pass->b[i] <= pass->quad && pass->b[i] >= pass->first_quad)
+			break;
+		--i;
+	}
+	if (pass->b[i] > pass->quad)
+		return (-1);
+	pass->b_hold = pass->b[i];
+	//ft_printf("B_H %i\n", pass->b_hold);
+	return (i);
+}
+
 int	ft_moves(t_info *pass)
 {
 	int	i;
@@ -156,8 +181,11 @@ int	ft_moves(t_info *pass)
 	{
 		while (i < pass->a_len)
 		{
+			//ft_printf("1\n");
 			if (pass->a[i] > pass->b_hold || ((pass->b_hold < pass->min || pass->b_hold > pass->max) && pass->a[i] == pass->min))
 			{
+				//ft_printf("b4 %i aI %i aF %i\n", pass->a[i - 1], pass->a[i], pass->a[i + 1]);
+				//ft_printf("min %i max %i bH %i\n", pass->min, pass->max, pass->b_hold);
 				pass->a_hold = pass->a[i];
 				break;
 			}
@@ -166,10 +194,12 @@ int	ft_moves(t_info *pass)
 	}
 	else if ((pass->a[0] > pass->b_hold && pass->a[pass->a_len - 1] < pass->b_hold) || (pass->a[0] == pass->min && (pass->b_hold < pass->min || pass->b_hold > pass->max)))
 	{
+		//ft_printf("2\n");
 		pass->a_hold = pass->a[i];
 	}
 	else if (pass->a[0] > pass->b_hold)
 	{
+		//ft_printf("3\n");
 		while (pass->a[i] > pass->b_hold)
 		{
 			if ((pass->b_hold < pass->min || pass->b_hold > pass->max) && pass->a[i] == pass->min)
@@ -193,20 +223,20 @@ int	ft_moves(t_info *pass)
 
 void	ft_next_up(t_info *pass)
 {
-	int	i;
-	//int	hold;
-	int	j = 0;
+	int			i;
+	static int	hold = 0;
+	int			j = 0;
 	ft_iniit(pass); //look at calculating which is shorter (before or after median) and choose first 
 	i = 0;
-	if (pass->b_len > 1 && (ft_find_it(pass) == 1 || (ft_find_it(pass) == 2 && pass->b[0] <= pass->mid))) //looking for formular to find either mid or next closest 
+	if (pass->b_len > 1 && ft_find_it(pass) == 1) //looking for formular to find either mid or next closest 
 	{
-		ft_printf("1\n");
+		//ft_printf("1\n");
 		j = ft_next_b(pass); //check for -1
 		if (j != -1)
 			i = ft_moves(pass);		
-		while (pass->b[1] <= pass->mid || (ft_find_it(pass) == 2 && pass->b[0] <= pass->mid))
+		while (pass->b[1] <= pass->mid)// || (ft_find_it(pass) == 2 && pass->b[0] <= pass->mid))
 		{
-			ft_printf("2\n");
+			//ft_printf("2\n");
 			if (j == -1)
 			{
 				ft_rb(pass);
@@ -219,7 +249,7 @@ void	ft_next_up(t_info *pass)
 			}*/
 			else if (i < pass->a_len / 2)
 			{
-				ft_printf("3\n");
+				//ft_printf("3\n");
 				//ft_printf("a[0] %i a[L] %i b[0] %i b_h %i a_h %i\n", pass->a[0], pass->a[pass->a_len - 1], pass->b[0], pass->b_hold, pass->a_hold);
 				while (pass->a[0] != pass->a_hold && pass->b[0] != pass->b_hold)
 				{
@@ -240,7 +270,7 @@ void	ft_next_up(t_info *pass)
 			}
 			else
 			{
-				ft_printf("4\n");
+				//ft_printf("4\n");
 				while (pass->a[0] != pass->a_hold)
 				{
 					ft_rra(pass);
@@ -260,34 +290,110 @@ void	ft_next_up(t_info *pass)
 				break;
 		}*/
 	}
-	while (pass->b_len > 1 && ft_find_it(pass) > 1) //looking for formular to find either mid or next closest 
+	if (pass->b_len > 1 && ft_find_it(pass) > 1) //looking for formular to find either mid or next closest 
 	{
-		ft_printf("mid %i b[0] %i\n", pass->mid, pass->b[0]);
-		exit (0);
-		while (pass->b[pass->b_len - 1] <= pass->mid)
+		if (pass->b[0] < pass->mid && hold == 0)
 		{
+			++hold;
+			while (pass->b[0] <= pass->mid)
+			{
+				ft_rb(pass);
+				ft_printf("rb\n");
+			}
+		}
+		j = ft_next_b_one(pass);
+		if (j != -1)
+			i = ft_moves(pass);
+		if (pass->b[pass->b_len - 1] <= pass->mid)
+		{
+			//ft_printf("HERE\n");
 			if (ft_find_it(pass) == 2)
 			{
-				if (pass->b[0] <= pass->quad && pass->b[0] >= pass->first_quad)
-					break;
+				while (pass->b[pass->b_len - 1] <= pass->mid)
+				{
+					if (j == -1)
+					{
+						ft_rrb(pass);
+						ft_printf("rrb\n");
+					}
+					else if (i >= pass->a_len / 2)
+					{
+						while (pass->a[0] != pass->a_hold && pass->b[0] != pass->b_hold)
+						{
+							ft_rrr(pass);
+							ft_printf("rrr\n");
+						}
+						while (pass->a[0] != pass->a_hold)
+						{
+							ft_rra(pass);
+							ft_printf("rra\n");
+						}
+						while (pass->b[0] != pass->b_hold)
+						{
+							ft_rrb(pass);
+							ft_printf("rrb\n");
+						}
+						break;
+					}
+					else
+					{
+						//ft_printf("4\n");
+						while (pass->a[0] != pass->a_hold)
+						{
+							ft_ra(pass);
+							ft_printf("ra\n");
+						}
+						while (pass->b[0] != pass->b_hold)
+						{
+							//ft_printf("b_h %i b[0] %i mid %i \n", pass->b_hold, pass->b[0], pass->mid);
+							ft_rrb(pass);
+							ft_printf("rrb\n");
+						}
+						break;
+					}
+
+				//if (pass->b[0] <= pass->quad && pass->b[0] >= pass->first_quad)
+				//	break;
+				}
 			}
-			else if (ft_find_it(pass) == 3 && pass->b[pass->b_len - 1] > pass->mid)
+			while (ft_find_it(pass) == 3 && pass->b[pass->b_len - 1] <= pass->mid)
 			{
-				break;
+				//ft_printf("2\n");
+				ft_rrb(pass);
+				ft_printf("rrb\n");
 			}
-			ft_rrb(pass);
-			ft_printf("rrb\n");
+			//exit (0);
 		}
-		if (ft_find_it(pass) == 2)
+		if (ft_find_it(pass) == 3)
+		{
+			j = ft_next_b_one(pass);
+			if (j != -1)
+				i = ft_moves(pass);
+			while (pass->a[0] != pass->a_hold)
+			{
+				if (i < pass->a_len / 2)
+				{
+					ft_ra(pass);
+					ft_printf("ra\n");
+				}
+				else
+				{
+					ft_rra(pass);
+					ft_printf("rra\n");
+				}
+			}
+		}
+		/*if (ft_find_it(pass) == 2)
 		{
 			if (pass->b[0] <= pass->quad && pass->b[0] >= pass->first_quad)
 				break;
 		}
 		else if (ft_find_it(pass) == 3)
-			break;
+			break;*/
 	}
 	while (pass->b_len > 1 && !ft_find_it(pass) && ft_it_find(pass))
 	{
+		exit (0);
 		if (ft_it_find(pass) == 1)
 		{
 			if (pass->b[0] > pass->mid && pass->b[0] <= pass->three_quad)
@@ -301,59 +407,7 @@ void	ft_next_up(t_info *pass)
 		ft_rb(pass);
 		ft_printf("rb\n");
 	}
-	/*hold = pass->b[0];
-	if (pass->a[0] < hold)
-	{
-		while (i < pass->a_len)
-		{
-			if (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min))
-			{
-				hold = pass->a[i];
-				break;
-			}
-			++i;
-		}
-	}
-	else if ((pass->a[0] > hold && pass->a[pass->a_len - 1] < hold) || (pass->a[0] == pass->min && (hold < pass->min || hold > pass->max)))
-	{
-		hold = pass->a[i];
-	}
-	else if (pass->a[0] > hold)
-	{
-		while (pass->a[i] > hold)
-		{
-			if ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min)
-			{
-				break;
-			}
-			++i;
-		}
-		while (i < pass->a_len)
-		{
-			if (pass->a[i] > hold || ((hold < pass->min || hold > pass->max) && pass->a[i] == pass->min) )
-			{
-				hold = pass->a[i];
-				break;
-			}
-			++i;
-		}
-	}*/
-	/*if (i < pass->a_len / 2)
-	{
-		while (pass->a[0] != hold)
-		{
-				ft_ra(pass);
-				ft_printf("ra\n");
-		}
-	}
-	else
-	{
-		while (pass->a[0] != hold)
-		{
-				ft_rra(pass);
-				ft_printf("rra\n");
-		}
-	}*/
+	ft_printf("a0 %i aL %i b %i\n", pass->a[0], pass->a[pass->a_len - 1], pass->b[0]);  //USE TO FIND BUG
 	ft_pa(pass);
 	ft_printf("pa\n");
 	//ft_printf("a[0] %i   a[last] %i  b[0] %i  b_len %i\n", pass->a[0], pass->a[pass->a_len - 1], pass->b[0], pass->b_len);
