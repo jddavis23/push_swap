@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/15 12:44:14 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/16 16:29:58 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,18 @@ typedef struct	s_info
 	int		min_pos;
 	int		max;
 	int		max_pos;
+	int		zero_et;
+	int		one_et;
+	int		two_et;
+	int		three_et;
 	int		mid;
-	int		first_quad;
-	int		quad;
-	int		three_quad;
-	int		four_quad;
+	int		five_et;
+	int		six_et;
+	int		sev_et;
+	int		et_et;
 	int		b_hold;
 	int		a_hold;
+	int		rev;
 	int		min_b;
 	int		min_b_pos;
 }				t_info;
