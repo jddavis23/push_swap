@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/17 14:06:14 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/17 16:50:21 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,44 +146,12 @@ void	ft_shift(t_info *pass, int i)
 
 void	ft_next_up(t_info *pass)
 {
-	int	i;
+	int			i;
+	static int	up = 1;
 
-	if (ft_closer(pass, pass->three_et, pass->mid) == 1)
-	{
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-	}
-	else if (ft_closer(pass, pass->two_et, pass->three_et) == 1)
-	{
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-	}
-	else if (ft_closer(pass, pass->one_et, pass->two_et) == 1)
-	{
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-	}
-	else if (ft_closer(pass, pass->zero_et, pass->one_et) == 1)
-	{
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-	}
-	else if (ft_closer(pass, pass->mid, pass->five_et) == 1)
-	{
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-	}
-	else if (ft_closer(pass, pass->five_et, pass->six_et) == 1)
-	{
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-	}
-	else if (ft_closer(pass, pass->six_et, pass->sev_et) == 1)
-	{
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-	}
-	else if (ft_closer(pass, pass->sev_et, pass->et_et) == 1)
+	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range / 10.0) * up)) == -1)
+		++up;
+	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range / 10.0) * up)) == 1)
 	{
 		i = ft_moves(pass);
 		ft_shift(pass, i);
@@ -290,8 +258,8 @@ void	ft_build_lis(t_info *pass, int complete, int i)
 
 void	ft_median(t_info *pass)
 {
-    int i;
-    int temp;
+   	/*int i;
+	int temp;
 
 	i = 0;
     while (i < pass->a_len)
@@ -322,6 +290,9 @@ void	ft_median(t_info *pass)
 	pass->six_et = pass->b[(pass->a_len / 8) * 6];
 	pass->sev_et = pass->b[(pass->a_len / 8) * 7];
 	pass->et_et = pass->b[pass->a_len - 1];
+	pass->range = pass->b[pass->a_len - 1] - pass->b[0];*/
+	pass->range = pass->max - pass->min;
+	pass->mid = (int)((pass->range / 10.0) * 5);
 }
 
 int	main(int argc, char *argv[])

@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/17 13:51:03 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/17 16:08:58 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_info
 	int		six_et;
 	int		sev_et;
 	int		et_et;
+	int		range;
 	int		b_hold;
 	int		a_hold;
 	int		rev;
