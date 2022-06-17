@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/16 17:27:30 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/17 12:05:31 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,10 +264,11 @@ int	ft_closer(t_info *pass, int min, int max)
 
 	i = 0;
 	j = pass->b_len - 1;
+	ft_iniit(pass);
 	while (i < pass->b_len - 1)
 	{
-		if (min == pass->zero_et)
-			ft_printf("b[i] %i a_len %i i %i\n", pass->b[i], pass->a_len, i);
+		//if (min == pass->zero_et)
+		//	ft_printf("b[i] %i a_len %i i %i\n", pass->b[i], pass->a_len, i);
 		if (pass->b[i] >= min && pass->b[i] <= max)
 			break;
 		++i;
@@ -308,11 +309,11 @@ int	ft_closer(t_info *pass, int min, int max)
 	{
 		pass->rev = 1;
 		pass->b_hold = pass->b[i];
-		if (min == pass->zero_et)
-		{
-			ft_iniit(pass);
-			ft_printf("max %i min %i\n", pass->max, pass->min);
-		}
+		//if (min == pass->zero_et)
+		//{
+		//	ft_iniit(pass);
+		//	ft_printf("max %i min %i\n", pass->max, pass->min);
+		//}
 		//if (pass->b_hold == 47)
 		//	exit (0);
 		return (1);
@@ -340,7 +341,7 @@ void	ft_shift(t_info *pass, int i)
 		{
 			while (pass->a[0] != pass->a_hold)
 			{
-				ft_printf("a_h %i\n", pass->a_hold);
+				//ft_printf("a_h %i\n", pass->a_hold);
 				ft_rra(pass);
 				ft_printf("rra\n");
 			}
@@ -363,7 +364,7 @@ void	ft_shift(t_info *pass, int i)
 			}
 			while (pass->a[0] != pass->a_hold)
 			{
-				ft_printf("2\n");
+				//ft_printf("2\n");
 				ft_rra(pass);
 				ft_printf("rra\n");
 			}
@@ -388,7 +389,7 @@ void	ft_next_up(t_info *pass)
 {
 	int	i;
 
-	if (ft_closer(pass, pass->three_et, pass->five_et) == 1)
+	if (ft_closer(pass, pass->three_et, pass->mid) == 1)
 	{
 		i = ft_moves(pass);
 		ft_shift(pass, i);
@@ -408,9 +409,13 @@ void	ft_next_up(t_info *pass)
 		i = ft_moves(pass);
 		ft_shift(pass, i);
 	}
+	else if (ft_closer(pass, pass->mid, pass->five_et) == 1)
+	{
+		i = ft_moves(pass);
+		ft_shift(pass, i);
+	}
 	else if (ft_closer(pass, pass->five_et, pass->six_et) == 1)
 	{
-		exit (0);
 		i = ft_moves(pass);
 		ft_shift(pass, i);
 	}
@@ -424,7 +429,7 @@ void	ft_next_up(t_info *pass)
 		i = ft_moves(pass);
 		ft_shift(pass, i);
 	}
-	ft_printf("a0 %i a1 %i aL %i b %i\n", pass->a[0], pass->a[1], pass->a[pass->a_len - 1], pass->b_hold);
+	//ft_printf("a0 %i a1 %i aL %i b %i\n", pass->a[0], pass->a[1], pass->a[pass->a_len - 1], pass->b_hold);
 	ft_pa(pass);
 	ft_printf("pa\n");
 }
