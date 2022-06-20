@@ -6,7 +6,7 @@
 #    By: jdavis <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 11:55:55 by jdavis            #+#    #+#              #
-#    Updated: 2022/06/17 13:12:22 by jdavis           ###   ########.fr        #
+#    Updated: 2022/06/20 13:38:35 by jdavis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC += solved.c
 SRC += create.c
 SRC += dup.c
 SRC += moves.c
+SRC += lis.c
 
 all: $(CHECK) $(PUSH)
 

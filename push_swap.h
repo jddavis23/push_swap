@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/17 16:08:58 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/20 13:33:31 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ typedef struct	s_info
 	int		max;
 	int		max_pos;
 	int		zero_et;
-	int		one_et;
-	int		two_et;
-	int		three_et;
+	int		one;
+	int		two;
+	int		three;
+	int		four;
 	int		mid;
-	int		five_et;
-	int		six_et;
-	int		sev_et;
-	int		et_et;
+	int		five;
+	int		six;
+	int		sev;
+	int		et;
+	int		nine;
+	int		ten;
 	int		range;
 	int		b_hold;
 	int		a_hold;
@@ -66,6 +69,9 @@ t_info	*ft_create(t_info *pass, int total, char *str[]);
 int		ft_dup_option_check(t_info *pass);
 int		ft_dup(t_info *pass);
 int		ft_moves(t_info *pass);
+int		ft_all_order(int *arr, int len);
+void	ft_lis(t_info *pass);
+void	ft_build_lis(t_info *pass, int complete, int i);
 int		ft_all_order(int *arr, int len);
 
 #endif

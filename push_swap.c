@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/17 16:50:21 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/20 13:37:58 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,39 +78,52 @@ int	ft_closer(t_info *pass, int min, int max)
 	   i = -1;
 	if (pass->b[j] < min || pass->b[j] > max)
 	   j = -1;
-	if (j == -1 && i != -1)
-	{
-		pass->rev = 1;
-		pass->b_hold = pass->b[i];
-		return (1);
-	}
-	else if (i == -1 && j != -1)
-	{
-		pass->rev = 2;
-		pass->b_hold = pass->b[i];
-		return (1);
-	}
-	else if (i == -1 && j == -1)
+	if (i == -1 && j == -1)
 		return (-1);
 	if (pass->b_len - j < i)
 	{
 		pass->rev = 2;
 		pass->b_hold = pass->b[j];
+		/*if (pass->b_len - j > 15)
+		{
+			//ft_printf("check\n");
+			ft_closer(pass, min, max + 10);
+		}*/
 		return (1);
 	}
 	else
 	{
 		pass->rev = 1;
 		pass->b_hold = pass->b[i];
+		/*if (i > 15)
+		{
+			//ft_printf("check1\n");
+			ft_closer(pass, min, max + 10);
+		}*/
 		return (1);
 	}
+}
+
+int	ft_which_way(int len, int i)
+{
+	if (len % 2 == 0)
+	{
+		if (i < len / 2)
+			return (1);
+	}
+	else if (len % 2 == 1)
+	{
+		if (i <= len / 2)
+			return (1);
+	}
+	return (0);
 }
 
 void	ft_shift(t_info *pass, int i)
 {
 	if (pass->rev == 1)
 	{
-		if (i < pass->a_len / 2)
+		if (ft_which_way(pass->a_len, i))//i < pass->a_len / 2)
 		{
 			while (pass->a[0] != pass->a_hold && pass->b[0] != pass->b_hold)
 				ft_rr(pass, 1);
@@ -127,7 +140,7 @@ void	ft_shift(t_info *pass, int i)
 	}
 	else
 	{
-		if (i >= pass->a_len / 2)
+		if (!ft_which_way(pass->a_len, i))//i >= pass->a_len / 2)
 		{
 			while (pass->a[0] != pass->a_hold && pass->b[0] != pass->b_hold)
 				ft_rrr(pass, 1);
@@ -148,18 +161,24 @@ void	ft_next_up(t_info *pass)
 {
 	int			i;
 	static int	up = 1;
+	float			percent;
 
-	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range / 10.0) * up)) == -1)
+	if (pass->total > 250)
+		percent = 20.0;
+	else
+		percent = 10.0;
+	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range / percent) * up)) == -1)
 		++up;
-	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range / 10.0) * up)) == 1)
+	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range / percent) * up)) == 1)
 	{
+		//ft_printf("%i\n", up);
 		i = ft_moves(pass);
 		ft_shift(pass, i);
 	}
 	ft_pa(pass, 1);
 }
 
-int	ft_max_of(int a, int b)
+/*int	ft_max_of(int a, int b)
 {
 	if (a > b)
 		return (a);
@@ -254,7 +273,7 @@ void	ft_build_lis(t_info *pass, int complete, int i)
 		}
 		return;
 	}
-}
+}*/
 
 void	ft_median(t_info *pass)
 {
@@ -281,16 +300,19 @@ void	ft_median(t_info *pass)
 			++i;
 		}
 	}
-	pass->zero_et = pass->b[0];
-	pass->one_et = pass->b[pass->a_len / 8];
-	pass->two_et = pass->b[(pass->a_len / 8) * 2];
-	pass->three_et = pass->b[(pass->a_len / 8) * 3];
+	pass->zero = pass->b[0];
+	pass->one = pass->b[pass->a_len / 10];
+	pass->two = pass->b[(pass->a_len / 10) * 2];
+	pass->three = pass->b[(pass->a_len / 10) * 3];
 	pass->mid = pass->b[pass->a_len / 2];
-	pass->five_et = pass->b[(pass->a_len / 8) * 5];
-	pass->six_et = pass->b[(pass->a_len / 8) * 6];
-	pass->sev_et = pass->b[(pass->a_len / 8) * 7];
-	pass->et_et = pass->b[pass->a_len - 1];
-	pass->range = pass->b[pass->a_len - 1] - pass->b[0];*/
+	pass->four = pass->b[(pass->a_len / 10) * 4];
+	pass->five = pass->b[(pass->a_len / 10) * 5];
+	pass->six = pass->b[(pass->a_len / 10) * 6];
+	pass->sev = pass->b[(pass->a_len / 10) * 7];
+	pass->et = pass->b[(pass->a_len / 10) * 8];
+	pass->nine = pass->b[(pass->a_len / 10) * 9];
+	pass->ten = pass->b[pass->a_len - 1];*/
+	//pass->range = pass->b[pass->a_len - 1] - pass->b[0];
 	pass->range = pass->max - pass->min;
 	pass->mid = (int)((pass->range / 10.0) * 5);
 }
