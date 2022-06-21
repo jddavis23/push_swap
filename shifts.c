@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 12:38:58 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/21 13:07:55 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/21 18:52:20 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_helper_closer(t_info *pass, int j, int i)
 /*finding the closest int from top down and bottom up, deciding which way
  * stack be should be rotated*/
 
-int	ft_closer(t_info *pass, int min, int max)
+int	ft_closer(t_info *pass, int min, long int max)
 {
 	int	i;
 	int	j;
@@ -116,19 +116,30 @@ void	ft_next_up(t_info *pass)
 	int			i;
 	static int	up = 1;
 	float		percent;
+	int			check;
 
+	check = 0;
 	if (pass->total > 250)
 		percent = 20.0;
 	else
 		percent = 10.0;
-	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range
+	if (ft_closer(pass, pass->zero_et, pass->zero_et + ((pass->range
 				/ percent) * up)) == -1)
 		++up;
-	if (ft_closer(pass, pass->zero_et, pass->zero_et + (int)((pass->range
+	if (ft_closer(pass, pass->zero_et, pass->zero_et + ((pass->range
 				/ percent) * up)) == 1)
 	{
+		if (pass->a_len == 3 && pass->b[0] < pass->b[1] && pass->b[1] < pass->a[0])
+		{
+			ft_pa(pass, 1);
+			ft_pa(pass, 1);
+			ft_sa(pass, 1);
+			return ;
+		}
 		i = ft_moves(pass);
 		ft_shift(pass, i);
+		check = 1;
 	}
-	ft_pa(pass, 1);
+	if (check)
+		ft_pa(pass, 1);
 }

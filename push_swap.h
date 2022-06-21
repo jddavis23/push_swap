@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/21 12:40:17 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/21 18:37:54 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct	s_info
 	int		max;
 	int		zero_et;
 	int		mid;
-	int		range;
+	long int		range;
 	int		b_hold;
 	int		a_hold;
 	int		rev;
