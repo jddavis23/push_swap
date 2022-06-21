@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:29:01 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/20 13:51:01 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/21 13:48:02 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,6 @@ void	ft_lis(t_info *pass)
 	}
 }
 
-int	ft_all_order(int *arr, int len)
-{
-	int	i;
-
-	i = 1;
-	if (len == 1)
-		return (1);
-	while (i < len)
-	{
-		if (arr[i] <= arr[i - 1])
-			return (-1);
-		++i;
-	}
-	return (1);
-}
-
 void	ft_build_lis(t_info *pass, int complete, int i)
 {
 	int flag = 0;
@@ -117,10 +101,7 @@ void	ft_build_lis(t_info *pass, int complete, int i)
 			if (flag && ft_all_order(pass->sequence, complete + 1) == 1 &&
 					complete == pass->lis - 1 && pass->sequence[complete] ==
 					pass->a[pass->lis_pos] && ++stop == 1)
-			{
-				//++stop;
 				break ;
-			}
 			else if (flag && ft_all_order(pass->sequence, complete + 1) == 1)
 			{
 				ft_build_lis(pass, complete + 1, i + 1);
