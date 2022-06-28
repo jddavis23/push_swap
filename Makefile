@@ -6,7 +6,7 @@
 #    By: jdavis <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/09 11:55:55 by jdavis            #+#    #+#              #
-#    Updated: 2022/06/21 12:39:21 by jdavis           ###   ########.fr        #
+#    Updated: 2022/06/28 11:03:32 by jdavis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC += dup.c
 SRC += moves.c
 SRC += lis.c
 SRC += shifts.c
+SRC += five_or_less.c
 
 all: $(CHECK) $(PUSH)
 

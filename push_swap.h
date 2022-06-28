@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/21 18:37:54 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 11:04:13 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ int		ft_all_order(int *arr, int len);
 void	ft_iniit(t_info *pass);
 int		ft_which_way(int len, int i);
 void	ft_next_up(t_info *pass);
+void	ft_five_or_less(t_info *pass);
 
 #endif

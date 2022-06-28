@@ -6,13 +6,15 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 12:38:58 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/21 18:52:20 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 12:24:09 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/*helper function for ft_closer*/
+/*
+ * Helper function for ft_closer
+ */
 
 static int	ft_helper_closer(t_info *pass, int j, int i)
 {
@@ -29,8 +31,10 @@ static int	ft_helper_closer(t_info *pass, int j, int i)
 	return (1);
 }
 
-/*finding the closest int from top down and bottom up, deciding which way
- * stack be should be rotated*/
+/*
+ * Finding the closest int from top down and bottom up, deciding which way
+ * stack be should be rotated
+ */
 
 int	ft_closer(t_info *pass, int min, long int max)
 {
@@ -61,8 +65,10 @@ int	ft_closer(t_info *pass, int min, long int max)
 	return (ft_helper_closer(pass, j, i));
 }
 
-/*helper function for ft_shift. reverse rotating stack b
- * and moving stack a to match*/
+/*
+ * Helper function for ft_shift. reverse rotating stack b
+ * and moving stack a to match
+ */
 
 static void	ft_helper_shift(t_info *pass, int i)
 {
@@ -82,8 +88,10 @@ static void	ft_helper_shift(t_info *pass, int i)
 		ft_rrb(pass, 1);
 }
 
-/*implimenting rotations on stack a and b. Utilizing double 
- * moves where ever possible. Rotating stack b and stack a to match*/
+/*
+ * Implimenting rotations on stack a and b. Utilizing double 
+ * moves where ever possible. Rotating stack b and stack a to match
+ */
 
 void	ft_shift(t_info *pass, int i)
 {
@@ -108,38 +116,35 @@ void	ft_shift(t_info *pass, int i)
 		ft_helper_shift(pass, i);
 }
 
-/*dividing range from min to max into subsections, to be able to specificy 
- * shifting of stack b to a, limiting over rotation of stack a */
+/* 
+ * Dividing range from min to max into subsections, to be able to specificy 
+ * shifting of stack b to a, limiting over rotation of stack a
+ */
 
 void	ft_next_up(t_info *pass)
 {
-	int			i;
 	static int	up = 1;
 	float		percent;
-	int			check;
 
-	check = 0;
 	if (pass->total > 250)
 		percent = 20.0;
 	else
 		percent = 10.0;
 	if (ft_closer(pass, pass->zero_et, pass->zero_et + ((pass->range
-				/ percent) * up)) == -1)
+					/ percent) * up)) == -1)
 		++up;
 	if (ft_closer(pass, pass->zero_et, pass->zero_et + ((pass->range
-				/ percent) * up)) == 1)
+					/ percent) * up)) == 1)
 	{
-		if (pass->a_len == 3 && pass->b[0] < pass->b[1] && pass->b[1] < pass->a[0])
+		if (pass->a_len == 3 && pass->b[0] < pass->b[1] && pass->b[1]
+			< pass->a[0])
 		{
 			ft_pa(pass, 1);
 			ft_pa(pass, 1);
 			ft_sa(pass, 1);
 			return ;
 		}
-		i = ft_moves(pass);
-		ft_shift(pass, i);
-		check = 1;
-	}
-	if (check)
+		ft_shift(pass, ft_moves(pass));
 		ft_pa(pass, 1);
+	}
 }

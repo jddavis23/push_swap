@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 13:06:22 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/16 15:20:01 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 13:52:34 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,23 @@ t_info	*ft_create(t_info *pass, int total, char *str[])
 		return (NULL);
 	while (i < total)
 		count += ft_numb_count(str[i++]);
+	pass->a = NULL;
+	pass->b = NULL;
+	pass->lis_arr = NULL;
+	pass->sequence = NULL;
 	pass->a = (int *) malloc(count * sizeof(int *));
 	pass->b = (int *) malloc(count * sizeof(int *));
-	if (!pass->a || !pass->b)
+	pass->lis_arr = (int *) malloc(count * sizeof(int));
+	if (!pass->a || !pass->b || !pass->lis_arr)
 	{
-		//free whichever
-		//return
+		ft_error(pass);
+		return (NULL);
 	}
 	pass->a_len = 0;
 	pass->b_len = 0;
 	pass->total = count;
+	if (ft_collect(pass, str, total) == -1)
+		return (NULL);
 	return (pass);
 }
 

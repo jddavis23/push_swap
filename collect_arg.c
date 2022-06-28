@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 10:53:28 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/16 10:54:00 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 13:30:53 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_collect(t_info *pass, char *argv[], int argc)
 			{
 				if (argv[i][len] < '0' || argv[i][len] > '9')
 				{
-					if (argv[i][len] == '-' && (len == 0 || argv[i][len - 1] == ' '))
+					if (argv[i][len] == '-' && (len == 0 || argv[i][len - 1] == ' ') && (argv[i][len + 1] >= '0' && argv[i][len + 1] <= '9')) //error check just a minus
 						break ;
 					return (ft_error(pass));
 				}

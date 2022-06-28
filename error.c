@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 10:58:11 by jdavis            #+#    #+#             */
-/*   Updated: 2022/05/16 10:58:16 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 13:15:36 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ int	ft_error(t_info *pass)
 	a = NULL;
 	b = NULL;
 	USE ft_double_arrdel*/
+	if (pass->a)
+		free(pass->a);
+	if (pass->b)
+		free(pass->b);
+	if (pass->lis_arr)
+		free(pass->lis_arr);
+	if (pass->sequence)
+		free(pass->sequence);
+	if (pass)
+		free(pass);
 	ft_printf("Error\n");
 	return (-1);
 }
