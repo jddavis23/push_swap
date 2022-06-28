@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 10:53:28 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/28 13:30:53 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 16:31:43 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	ft_collect(t_info *pass, char *argv[], int argc)
 		}
 		++i;
 	}
-	if (pass->a_len != pass->total)
-		ft_printf("MEZZ UPPP\n"); //remove when done
+//	if (pass->a_len != pass->total)
+//		ft_printf("MEZZ UPPP\n"); //remove when done
 	return (1); //this should return a count of ints
 }
 

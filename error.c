@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 10:58:11 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/28 13:15:36 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 17:03:09 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_error(t_info *pass)
 		free(pass->sequence);
 	if (pass)
 		free(pass);
-	ft_printf("Error\n");
+	ft_putstr_fd("Error\n", 2);
 	return (-1);
 }
 

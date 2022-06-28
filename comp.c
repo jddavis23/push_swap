@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 10:28:54 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/17 13:41:51 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/28 17:01:17 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_compare(t_info *pass, char **line)
 		ft_sa(pass, 0);
 	if (ft_strcmp("sb", *line) == 0 && *line)
 		ft_sb(pass, 0);
+	if (ft_strcmp("ss", *line) == 0 && *line)
+		ft_ss(pass, 0);
 	if (ft_strcmp("pa", *line) == 0 && *line)
 		ft_pa(pass, 0);
 	if (ft_strcmp("pb", *line) == 0 && *line)
