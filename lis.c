@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:29:01 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/29 13:10:28 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/29 17:12:59 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,32 +87,25 @@ void	ft_lis(t_info *pass)
 
 void	ft_build_lis(t_info *pass, int complete, int i)
 {
-	int			flag;
 	static int	stop = 0;
 
-	flag = 0;
 	while (complete < pass->lis)
 	{
-		while (i <= pass->lis_pos && !stop && (ft_all_order(pass->sequence,
-					pass->lis) != 1 || pass->sequence[pass->lis - 1]
-				!= pass->a[pass->lis_pos]))
+		while (i <= pass->lis_pos && !stop)
 		{
-			if (pass->lis_arr[i] == complete + 1)
-			{
-				pass->sequence[complete] = pass->a[i];
-				flag = 1;
-			}
-			if (flag && ft_all_order(pass->sequence, complete + 1) == 1
+			while (pass->lis_arr[i] != complete + 1 && i < pass->lis_pos)
+				++i;
+			pass->sequence[complete] = pass->a[i];
+			if (ft_all_order(pass->sequence, complete + 1) == 1
 				&& complete == pass->lis - 1 && pass->sequence[complete]
 				== pass->a[pass->lis_pos] && ++stop == 1)
 				break ;
-			else if (flag && ft_all_order(pass->sequence, complete + 1) == 1)
+			else if (ft_all_order(pass->sequence, complete + 1) == 1)
 			{
 				ft_build_lis(pass, complete + 1, i + 1);
 				if (!stop)
 					pass->sequence[complete + 1] = pass->min - 1;
 			}
-			flag = 0;
 			++i;
 		}
 		return ;
