@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 10:58:11 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/28 17:03:09 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/29 11:24:27 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,6 @@ int	ft_error(t_info *pass)
 	i = 0;
 	if (pass->a && pass->b)
 		pass->total = 0;
-	/*while (i <= index)
-	{
-		if (a)
-			free(a[i]);
-		if (b)
-			free(b[i++]);
-	}
-	free(a);
-	free(b);
-	a = NULL;
-	b = NULL;
-	USE ft_double_arrdel*/
 	if (pass->a)
 		free(pass->a);
 	if (pass->b)
@@ -44,4 +32,3 @@ int	ft_error(t_info *pass)
 	ft_putstr_fd("Error\n", 2);
 	return (-1);
 }
-

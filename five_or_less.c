@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 11:04:55 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/28 11:45:29 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/29 11:35:58 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_swap_b(t_info *pass, int choice)
 {
 	if (choice)
 	{
-		if (pass->a[1] < pass->a[0])
+		if (pass->a[1] < pass->a[0] && pass->a[0] < pass->a[pass->a_len - 1])
 		{
 			if (pass->b_len == 2 && pass->b[1] < pass->b[0])
 				ft_ss(pass, 1);

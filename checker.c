@@ -6,44 +6,60 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:28:15 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/28 18:01:46 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/29 11:22:55 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/*
+ * Assignment function.
+ */
+
+static char	**ft_assign(char *opt[])
+{
+	opt[0] = "sa";
+	opt [1] = "sb";
+	opt[2] = "ss";
+	opt[3] = "pa";
+	opt[4] = "pb";
+	opt[5] = "ra";
+	opt[6] = "rb";
+	opt[7] = "rr";
+	opt[8] = "rra";
+	opt[9] = "rrb";
+	opt[10] = "rrr";
+	return (opt);
+}
+
+/*
+ * Comparing moves entered; if entry does not match allowed moves,
+ * return 0 (error).
+ */
+
 int	ft_options(char *str)
 {
 	int		i;
-	int		choice;
-	char	*opt[] = {
-		"sa",
-		"sb",
-		"ss",
-		"pa",
-		"pb",
-		"ra",
-		"rb",
-		"rr",
-		"rra",
-		"rrb",
-		"rrr"};
+	char	*opt[11];
 
 	i = 0;
-	choice = 0;
+	ft_assign(opt);
 	if (!str)
 		return (1);
 	while (i < 11)
 	{
 		if (ft_strcmp(opt[i], str) == 0)
-		{
-			choice = 1;
-			break ;
-		}
+			return (1);
 		++i;
 	}
-	return (choice);
+	return (0);
 }
+
+/*
+ * Error checking dupicated numbers, taking moves line by line and
+ * applying moves too stack. 
+ * After all moves have been applied, check if stack a is sorted.
+ */
 
 int	ft_dup_option_check(t_info *pass)
 {
@@ -66,16 +82,18 @@ int	ft_dup_option_check(t_info *pass)
 	if (error == -1)
 		return (ft_error(pass));
 	if (ft_solved(pass) == -1)
-	{
-		//delete & free structs
 		ft_printf("KO\n");
-	}
 	else
 		ft_printf("OK\n");
 	return (0);
 }
 
-int main(int argc, char *argv[])
+/*
+ * Creating struct with relevant data for parsing.
+ * Collecting and application of moves.
+ */
+
+int	main(int argc, char *argv[])
 {
 	int		i;
 	t_info	*pass;
@@ -84,11 +102,12 @@ int main(int argc, char *argv[])
 	pass = NULL;
 	pass = ft_create(pass, argc, argv);
 	if (!pass)
-	{
-		//return
-		return (0);
-	}
+		return (-1);
 	if (ft_dup_option_check(pass) == -1)
-		return (1);
+		return (-1);
+	free(pass->a);
+	free(pass->b);
+	free(pass->lis_arr);
+	free(pass);
 	return (0);
 }
