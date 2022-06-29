@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:12:33 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/29 11:28:15 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/29 12:19:41 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_rr(t_info *pass, int choice);
 void	ft_rra(t_info *pass, int choice);
 void	ft_rrb(t_info *pass, int choice);
 void	ft_rrr(t_info *pass, int choice);
+int		*ft_rotate_up(int *arr, int len);
 int		ft_solved(t_info *pass);
 void	ft_compare(t_info *pass, char **line);
 int		ft_collect(t_info *pass, char *argv[], int argc);

@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 11:44:30 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/28 16:41:49 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/29 12:26:38 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,9 @@ void	ft_median(t_info *pass)
 	int	i;
 	int	temp;
 
-	i = 0;
-	while (i < pass->a_len)
-	{
+	i = -1;
+	while (++i < pass->a_len)
 		pass->b[i] = pass->a[i];
-		++i;
-	}
 	while (ft_all_order(pass->b, pass->a_len) == -1)
 	{
 		i = 0;
@@ -104,8 +101,8 @@ void	ft_push_a(t_info *pass)
 
 int	main(int argc, char *argv[])
 {
-	t_info *pass;
-	int j = 0;
+	t_info	*pass;
+	int		j;
 
 	j = 0;
 	pass = NULL;

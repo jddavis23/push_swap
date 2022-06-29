@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:29:01 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/28 14:26:46 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/29 13:10:28 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static void	ft_helper_lis(t_info *pass)
 		while (j < i)
 		{
 			if (pass->a[j] < pass->a[i])
-				pass->lis_arr[i] = ft_max_of(pass->lis_arr[i], pass->lis_arr[j] + 1);
+				pass->lis_arr[i] = ft_max_of(pass->lis_arr[i], pass->lis_arr[j]
+						+ 1);
 			++j;
 		}
 		++i;
@@ -79,30 +80,31 @@ void	ft_lis(t_info *pass)
 
 /*
  * Recursively finding the values of the lis, only collecting the values of 
- * the relative index in the pass->lis_arr. If a value is placed and the functiomn
- * cannot complete pass->sequence array, the function returns and retries new value.
+ * the relative index in the pass->lis_arr. If a value is placed and the
+ * function cannot complete pass->sequence array, the function returns and
+ * retries new value.
  */
 
 void	ft_build_lis(t_info *pass, int complete, int i)
 {
-	int flag;
-	static int stop = 0;
+	int			flag;
+	static int	stop = 0;
 
 	flag = 0;
 	while (complete < pass->lis)
 	{
-		while (i <= pass->lis_pos && !stop &&  (ft_all_order(pass->sequence,
-						pass->lis) != 1 ||  pass->sequence[pass->lis - 1]
-					!= pass->a[pass->lis_pos]))
+		while (i <= pass->lis_pos && !stop && (ft_all_order(pass->sequence,
+					pass->lis) != 1 || pass->sequence[pass->lis - 1]
+				!= pass->a[pass->lis_pos]))
 		{
 			if (pass->lis_arr[i] == complete + 1)
 			{
 				pass->sequence[complete] = pass->a[i];
 				flag = 1;
 			}
-			if (flag && ft_all_order(pass->sequence, complete + 1) == 1 &&
-					complete == pass->lis - 1 && pass->sequence[complete] ==
-					pass->a[pass->lis_pos] && ++stop == 1)
+			if (flag && ft_all_order(pass->sequence, complete + 1) == 1
+				&& complete == pass->lis - 1 && pass->sequence[complete]
+				== pass->a[pass->lis_pos] && ++stop == 1)
 				break ;
 			else if (flag && ft_all_order(pass->sequence, complete + 1) == 1)
 			{
@@ -113,6 +115,6 @@ void	ft_build_lis(t_info *pass, int complete, int i)
 			flag = 0;
 			++i;
 		}
-		return;
+		return ;
 	}
 }
