@@ -6,7 +6,7 @@
 /*   By: jdavis <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 10:53:28 by jdavis            #+#    #+#             */
-/*   Updated: 2022/06/29 13:06:26 by jdavis           ###   ########.fr       */
+/*   Updated: 2022/06/30 12:07:30 by jdavis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ static int	ft_helper_error(char *str, int hold, char *dest)
 	return (0);
 }
 
+/*
+ *	Helper function to exit if the end of the string happens early.
+ */
+
+static int	ft_helper_exit(char *str, int len, int *hold)
+{
+	if (str[len] == '\0')
+		return (-1);
+	*hold = ft_strlen_stop(&str[len], ' ');
+	return (0);
+}
+
 int	ft_collect(t_info *pass, char *argv[], int argc)
 {
 	int		len;
@@ -72,7 +84,8 @@ int	ft_collect(t_info *pass, char *argv[], int argc)
 		{
 			while (argv[i][len] == ' ')
 				++len;
-			hold = ft_strlen_stop(&argv[i][len], ' ');
+			if (ft_helper_exit(argv[i], len, &hold) == -1)
+				break ;
 			if (ft_helper_error(&argv[i][len], hold, dest) == -1)
 				return (ft_error(pass));
 			pass->a[pass->a_len++] = ft_atoi(&argv[i][len]);
